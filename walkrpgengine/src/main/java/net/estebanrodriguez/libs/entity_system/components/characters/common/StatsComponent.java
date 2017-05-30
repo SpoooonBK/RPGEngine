@@ -27,6 +27,15 @@ public class StatsComponent extends EntityComponent {
     private int mSpeed;
     private int mToughness;
 
+    private int mMusclesModifier;
+    private int mBrainsModifier;
+    private int mSpeedModifier;
+    private int mToughnessModifier;
+
+    private int mDefense;
+    private int mDamageReduction;
+
+
 
     private int mTotalStatPoints;
 
@@ -43,6 +52,9 @@ public class StatsComponent extends EntityComponent {
         setMaxPower();
         mCurrentHealth = mMaxHealth;
         mCurrentPower = mMaxPower;
+        calculateModifiers();
+        calculateDefense();
+        calculateDamageReduction();
     }
 
     public void setTotalStatPoints(){
@@ -115,6 +127,39 @@ public class StatsComponent extends EntityComponent {
 
     public void setToughness(int toughness) {
         mToughness = toughness;
+    }
+
+    public LevelComponent getLevel() {
+        return mLevel;
+    }
+
+    public int getMusclesModifier() {
+        return mMusclesModifier;
+    }
+
+    public int getBrainsModifier() {
+        return mBrainsModifier;
+    }
+
+    public int getSpeedModifier() {
+        return mSpeedModifier;
+    }
+
+    public int getToughnessModifier() {
+        return mToughnessModifier;
+    }
+
+    public int getTotalStatPoints() {
+        return mTotalStatPoints;
+    }
+
+
+    public int getDefense() {
+        return mDefense;
+    }
+
+    public int getDamageReduction() {
+        return mDamageReduction;
     }
 
     private void distributeStatPoints(int initialStatPoints){
@@ -226,8 +271,33 @@ public class StatsComponent extends EntityComponent {
         return StatTypes.values()[roll];
     }
 
+    public void calculateModifiers(){
+        mMusclesModifier = (int)((mMuscles - 5)*.5);
+        mBrainsModifier = (int)((mBrains - 5)*.5);
+        mSpeedModifier = (int)((mSpeed - 5)*.5);
+        mToughnessModifier = (int)((mToughness - 5)*.5);
+    }
 
+    public void calculateDefense(){
+        mDefense = (10 + mSpeedModifier);
+    }
 
+    public void calculateDamageReduction(){
+        mDamageReduction = (int) (mToughnessModifier * .5);
+    }
+
+    public void decrementHealth(int damage){
+        mCurrentHealth = mCurrentHealth - damage;
+    }
+
+    public void addHealth(int healing){
+        int potentialHealth = mCurrentHealth + healing;
+        if(potentialHealth >= mMaxHealth){
+            mCurrentHealth = mMaxHealth;
+        }else {
+            mCurrentHealth = potentialHealth;
+        }
+    }
 
 
     public enum StatTypes{

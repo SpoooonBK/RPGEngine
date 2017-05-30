@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by spoooon on 5/1/17.
@@ -15,7 +16,7 @@ import java.util.Map;
 
 public class GameEntity {
 
-    private int mId;
+    private String mId = UUID.randomUUID().toString();
     private Map<String, EntityComponent> mComponents = new HashMap<>();
 
     public static Builder getBuilder(){
@@ -24,7 +25,7 @@ public class GameEntity {
 
     private GameEntity() {}
 
-    public int getId() {
+    public String getId() {
         return mId;
     }
 
@@ -48,6 +49,7 @@ public class GameEntity {
         public GameEntity sEntity;
 
         public Builder add(EntityComponent component){
+            component.bindEntityID(instance.getId());
             instance.mComponents.put(component.getComponentName(), component);
             return this;
         }
