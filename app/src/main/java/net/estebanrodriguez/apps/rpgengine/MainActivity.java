@@ -8,7 +8,7 @@ import android.widget.TextView;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.LevelComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.engines.CombatEngine;
+import net.estebanrodriguez.libs.entity_system.engines.combat.CombatEngine;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 
 import timber.log.Timber;

@@ -1,9 +1,9 @@
-package net.estebanrodriguez.libs.entity_system.components.characters.common;
+package net.estebanrodriguez.libs.entity_system.engines.combat;
 
 /**
  * Created by spoooon on 5/30/17.
  */
 
-enum DamageType {
+public enum DamageType {
     FIRE, COLD, ELECTRIC, MAGIC, PIERCE, CRUSH, SLASH, STENCH
 }

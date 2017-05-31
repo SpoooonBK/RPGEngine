@@ -1,8 +1,7 @@
-package net.estebanrodriguez.libs.entity_system.engines;
+package net.estebanrodriguez.libs.entity_system.engines.combat;
 
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.GearComponent;
+import net.estebanrodriguez.libs.entity_system.components.gear.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 

@@ -1,6 +1,8 @@
-package net.estebanrodriguez.libs.entity_system.components.characters.common;
+package net.estebanrodriguez.libs.entity_system.components.gear;
 
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.common.BodyPart;
+import net.estebanrodriguez.libs.entity_system.engines.combat.DamageType;
 import net.estebanrodriguez.libs.utilities.Dice;
 
 /**

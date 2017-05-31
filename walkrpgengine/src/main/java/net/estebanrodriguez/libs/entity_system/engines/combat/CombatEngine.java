@@ -1,10 +1,10 @@
-package net.estebanrodriguez.libs.entity_system.engines;
+package net.estebanrodriguez.libs.entity_system.engines.combat;
 
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.BodyPart;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.GearComponent;
+import net.estebanrodriguez.libs.entity_system.components.gear.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.WeaponComponent;
+import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.Dice;
 import net.estebanrodriguez.libs.utilities.Roll;
@@ -13,9 +13,6 @@ import net.estebanrodriguez.libs.utilities.RollTracker;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
-
-import sun.rmi.runtime.Log;
 
 /**
  * Created by spoooon on 5/26/17.
@@ -44,6 +41,7 @@ public class CombatEngine {
     }
 
 
+    //For Testing purposes
     public void fight(){
         if(mCombatants.size() >= 2){
             rollForInititiative();
@@ -56,7 +54,12 @@ public class CombatEngine {
         }
     }
 
+    //For Testing purposes
     private Combatant chooseDefender(CombatRole combatRole) {
+        for(Combatant combatant: mCombatants)
+            if(combatant.getCombatRole() != combatRole){
+                return combatant;
+            }
         return null;
     }
 
@@ -69,10 +72,7 @@ public class CombatEngine {
                         = gameEntity.getComponents().containsKey(EntityComponent.COMBAT_COMPONENT);
                 boolean hasStats
                         = gameEntity.getComponents().containsKey(EntityComponent.STATS_COMPONENT);
-                if(!hasCombat || !hasStats){
-                    return false;
-                }
-        return true;
+            return (hasCombat && hasStats);
     }
 
     private boolean rollForHit(Combatant attacker, Combatant defender){
@@ -82,10 +82,7 @@ public class CombatEngine {
 
         Roll attackRoll = new Roll();
         attackRoll.addModifier(attackerStats.getMusclesModifier());
-        if(attackRoll.getRoll() > defenderStats.getDefense()){
-            return true;
-        }
-        return false;
+        return (attackRoll.getRoll() > defenderStats.getDefense());
     }
 
     private int rollForDamage(Combatant attacker, Combatant defender){
@@ -127,7 +124,7 @@ public class CombatEngine {
         List<Combatant> initiativeOrder = new ArrayList<>();
             for(Roll roll: rollTracker.getRolls()){
                 for(Combatant combatant: mCombatants){
-                    if(combatant.getId() == roll.getID()){
+                    if(combatant.getId().equals(roll.getID())){
                         initiativeOrder.add(combatant);
                         break;
                     }
