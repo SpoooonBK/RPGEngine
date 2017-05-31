@@ -1,6 +1,7 @@
 package net.estebanrodriguez.libs.entity_system.engines.combat;
 
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
@@ -13,17 +14,18 @@ public final class Combatant {
 
     private final String mId;
     private final String mName;
-    private final CombatEngine.CombatRole mCombatRole;
+    private final CombatGroup mCombatGroup;
     private final GameEntity mGameEntity;
     private final StatsComponent mStatsComponent;
     private final GearComponent mGearComponent;
 
-    public Combatant(GameEntity gameEntity, CombatEngine.CombatRole combatRole) {
+    public Combatant(GameEntity gameEntity, CombatGroup combatGroup) {
 
         mGameEntity = gameEntity;
         mId = gameEntity.getId();
-        mName = gameEntity.getComponents().get(EntityComponent.CHARACTER_COMPONENT).getComponentName();
-        mCombatRole = combatRole;
+        CharacterComponent characterComponent = (CharacterComponent) gameEntity.getComponents().get(EntityComponent.CHARACTER_COMPONENT);
+        mName = characterComponent.getName();
+        mCombatGroup = combatGroup;
         mStatsComponent = (StatsComponent) gameEntity.getComponents().get(EntityComponent.STATS_COMPONENT);
         mGearComponent = (GearComponent) gameEntity.getComponents().get(GearComponent.GEAR_COMPONENT);
 
@@ -33,8 +35,8 @@ public final class Combatant {
         return mId;
     }
 
-    public CombatEngine.CombatRole getCombatRole() {
-        return mCombatRole;
+    public CombatGroup getCombatGroup() {
+        return mCombatGroup;
     }
 
     public GameEntity getGameEntity() {
@@ -47,5 +49,9 @@ public final class Combatant {
 
     public GearComponent getGearComponent() {
         return mGearComponent;
+    }
+
+    public String getName() {
+        return mName;
     }
 }

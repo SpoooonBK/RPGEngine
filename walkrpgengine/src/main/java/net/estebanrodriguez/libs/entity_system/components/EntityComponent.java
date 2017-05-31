@@ -12,6 +12,7 @@ public abstract class EntityComponent {
     public static final String COMBAT_COMPONENT = "combat_component";
     public static final String EXPERIENCE_COMPONENT = "experience_component";
     public static final String HEROIC_TYPE_COMPONENT = "heroic_type_component";
+    public static final String GEAR_COMPONENT = "gear_component";
     public static final String LEVEL_COMPONENT = "level_component";
     public static final String WEAPON_COMPONENT = "weapon_component";
     private String mComponentName;

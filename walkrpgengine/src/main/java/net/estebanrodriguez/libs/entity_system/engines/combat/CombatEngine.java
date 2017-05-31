@@ -34,30 +34,73 @@ public class CombatEngine {
 
 
 
-    public void addCombatant(GameEntity gameEntity, CombatRole combatRole){
+    public void addCombatant(GameEntity gameEntity, CombatGroup combatGroup){
         if(canFight(gameEntity)){
-            mCombatants.add(new Combatant(gameEntity, combatRole));
+            mCombatants.add(new Combatant(gameEntity, combatGroup));
         }
     }
 
+    public String fight(){
 
-    //For Testing purposes
-    public void fight(){
+        StringBuilder stringBuilder = new StringBuilder();
+
         if(mCombatants.size() >= 2){
             rollForInititiative();
-            for(Combatant attacker: mCombatants){
-                Combatant defender = chooseDefender(attacker.getCombatRole());
-                if(rollForHit(attacker, defender)){
-                    rollForDamage(attacker, defender);
-                }
-            }
         }
+
+        while(groupCheckIfAlive(CombatGroup.GROUP_A) && groupCheckIfAlive(CombatGroup.GROUP_B)){
+            String result = executeAttackRound();
+            stringBuilder.append(result);
+        }
+
+        if(groupCheckIfAlive(CombatGroup.GROUP_A)){
+            stringBuilder.append("Group A wins!");
+        }else stringBuilder.append("Group B wins!");
+
+        return stringBuilder.toString();
     }
 
+
     //For Testing purposes
-    private Combatant chooseDefender(CombatRole combatRole) {
+    public String executeAttackRound(){
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        for(Combatant attacker: mCombatants) {
+            if(checkIfAlive(attacker)) {
+                String result = attack(attacker, chooseDefender(attacker.getCombatGroup()));
+                stringBuilder.append(result + "\n");
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+
+    public String attack(Combatant attacker, Combatant defender){
+
+        StringBuilder stringBuilder = new StringBuilder();
+
+        if(rollForHit(attacker, defender)){
+            int damage = rollForDamage(attacker, defender);
+            defender.getStatsComponent().decrementHealth(damage);
+            stringBuilder.append(attacker.getName()
+                    + " hits " + defender.getName()
+                    + "for " + damage + " damage!\n" );
+
+            if(!checkIfAlive(defender)){
+                stringBuilder.append(attacker.getName() + " defeats " + defender.getName() + "!\n");
+            }
+        }else stringBuilder.append(attacker.getName() + " misses " + defender.getName() + ".\n");
+
+        return stringBuilder.toString();
+    }
+
+
+
+    //For Testing purposes
+    private Combatant chooseDefender(CombatGroup combatGroup) {
         for(Combatant combatant: mCombatants)
-            if(combatant.getCombatRole() != combatRole){
+            if(combatant.getCombatGroup() != combatGroup && checkIfAlive(combatant)){
                 return combatant;
             }
         return null;
@@ -65,7 +108,7 @@ public class CombatEngine {
 
 
     //Checks to see if GameEntities has character and stat components.  Only GameEntities with each
-    //may fight
+    //may executeAttackRound
     private boolean canFight(GameEntity gameEntity) {
 
                 boolean hasCombat
@@ -133,7 +176,26 @@ public class CombatEngine {
         mCombatants = initiativeOrder;
     }
 
-    public enum CombatRole {
-        GROUP_A, GROUP_B, GROUP_RANDOM
+    private boolean  groupCheckIfAlive(CombatGroup combatGroup){
+
+      int alive = 0;
+
+        for(Combatant combatant: mCombatants) {
+
+            if (combatant.getCombatGroup() == combatGroup) {
+                if (checkIfAlive(combatant)) {
+                        alive++;
+                }
+            }
+        }
+        return (alive > 0);
     }
+
+
+    private boolean checkIfAlive(Combatant combatant){
+        int health = combatant.getStatsComponent().getCurrentHealth();
+        return (health > 0);
+    }
+
+
 }

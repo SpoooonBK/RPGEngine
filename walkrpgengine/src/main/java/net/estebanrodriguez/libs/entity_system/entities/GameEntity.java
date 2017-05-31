@@ -69,7 +69,6 @@ public class GameEntity {
 
         if(mComponents != null){
             for(Map.Entry<String, EntityComponent> component: mComponents.entrySet()){
-                stringBuilder.append(component.getClass().getSimpleName());
                 stringBuilder.append(component.toString());
                 stringBuilder.append("\n");
             }
