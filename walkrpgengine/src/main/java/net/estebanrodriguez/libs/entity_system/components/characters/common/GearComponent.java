@@ -3,9 +3,7 @@ package net.estebanrodriguez.libs.entity_system.components.characters.common;
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -59,8 +57,8 @@ public class GearComponent extends EntityComponent {
     }
 
     public boolean isEquippable(GameEntity gear){
-        if(!gear.getComponents().containsKey(WeaponComponent.WEAPON_COMPONENT)
-                || !gear.getComponents().containsKey(ArmorComponent.ARMOR_COMPONENT)){
+        if(!gear.getComponents().containsKey(EntityComponent.WEAPON_COMPONENT)
+                || !gear.getComponents().containsKey(EntityComponent.ARMOR_COMPONENT)){
             return false;
         }
         return true;

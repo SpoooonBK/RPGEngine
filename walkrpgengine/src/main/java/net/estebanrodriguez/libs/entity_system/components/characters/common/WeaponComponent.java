@@ -9,8 +9,6 @@ import net.estebanrodriguez.libs.utilities.Dice;
 
 public class WeaponComponent extends EntityComponent {
 
-    public static final String WEAPON_COMPONENT = "weapon_component";
-
     private String mName;
     private BodyPart mBodyPart;
     private Dice mBaseDie;

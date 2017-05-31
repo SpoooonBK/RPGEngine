@@ -8,8 +8,6 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 
 public class HeroicTypeComponent extends EntityComponent{
 
-    public static final String HEROIC_TYPE_COMPONENT = "heroic_type_component";
-
     protected HeroicTypeComponent() {
         super(HEROIC_TYPE_COMPONENT);
     }

@@ -8,8 +8,6 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 
 public class LevelComponent extends EntityComponent {
 
-    public static final String LEVEL_COMPONENT = "level_component";
-
     private int level;
 
     public LevelComponent(int level) {

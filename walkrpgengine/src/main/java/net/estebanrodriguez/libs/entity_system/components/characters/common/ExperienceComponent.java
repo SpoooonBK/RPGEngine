@@ -9,8 +9,6 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 
 public class ExperienceComponent extends EntityComponent {
 
-    public static final String EXPERIENCE_COMPONENT = "experience_component";
-
     private int mTotalExperience;
 
     public ExperienceComponent() {

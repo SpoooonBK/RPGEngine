@@ -9,8 +9,6 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 
 public class CharacterComponent extends EntityComponent {
 
-    public static final String CHARACTER_COMPONENT = "character_component";
-
     private String mName;
 
     public CharacterComponent(String name) {

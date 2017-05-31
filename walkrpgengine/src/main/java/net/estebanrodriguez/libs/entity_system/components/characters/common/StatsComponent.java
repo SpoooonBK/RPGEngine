@@ -11,7 +11,6 @@ import net.estebanrodriguez.libs.utilities.DiceRoller;
 public class StatsComponent extends EntityComponent {
 
     private final int TOTAL_NUMBER_OF_STATS = 4;
-    public static final String STATS_COMPONENT = "stats_component";
 
 
     private LevelComponent mLevel;

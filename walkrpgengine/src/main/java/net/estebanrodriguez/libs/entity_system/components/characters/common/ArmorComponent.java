@@ -8,8 +8,6 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 
 public class ArmorComponent extends EntityComponent {
 
-    public final static String ARMOR_COMPONENT = "armor_component";
-
 
     ArmorComponent(){
         super(ARMOR_COMPONENT);
