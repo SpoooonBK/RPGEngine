@@ -6,6 +6,8 @@ import net.estebanrodriguez.libs.entity_system.components.gear.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.factories.Mob;
+import net.estebanrodriguez.libs.entity_system.entities.CharacterManager;
 import net.estebanrodriguez.libs.utilities.Dice;
 import net.estebanrodriguez.libs.utilities.Roll;
 import net.estebanrodriguez.libs.utilities.RollTracker;
@@ -35,8 +37,14 @@ public class CombatEngine {
 
 
     public void addCombatant(GameEntity gameEntity, CombatGroup combatGroup){
-        if(canFight(gameEntity)){
+        if(CharacterManager.canFight(gameEntity)){
             mCombatants.add(new Combatant(gameEntity, combatGroup));
+        }
+    }
+
+    public void addMob(Mob mob, CombatGroup combatGroup){
+        for(GameEntity gameEntity: mob.getGameEntities()){
+            addCombatant(gameEntity, combatGroup);
         }
     }
 
@@ -107,16 +115,7 @@ public class CombatEngine {
     }
 
 
-    //Checks to see if GameEntities has character and stat components.  Only GameEntities with each
-    //may executeAttackRound
-    private boolean canFight(GameEntity gameEntity) {
 
-                boolean hasCombat
-                        = gameEntity.getComponents().containsKey(EntityComponent.COMBAT_COMPONENT);
-                boolean hasStats
-                        = gameEntity.getComponents().containsKey(EntityComponent.STATS_COMPONENT);
-            return (hasCombat && hasStats);
-    }
 
     private boolean rollForHit(Combatant attacker, Combatant defender){
 
@@ -163,6 +162,8 @@ public class CombatEngine {
             roll.addModifier(combatant.getStatsComponent().getSpeedModifier());
             rollTracker.addRoll(roll);
         }
+
+        rollTracker.sortByHighest();
 
         List<Combatant> initiativeOrder = new ArrayList<>();
             for(Roll roll: rollTracker.getRolls()){

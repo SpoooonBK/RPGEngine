@@ -29,7 +29,7 @@ public class GameEntity {
         return mId;
     }
 
-    public Map<String, EntityComponent> getComponents() {
+    protected Map<String, EntityComponent> getComponents() {
         return mComponents;
     }
 

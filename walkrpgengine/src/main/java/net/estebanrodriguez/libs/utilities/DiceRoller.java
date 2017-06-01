@@ -12,13 +12,13 @@ public class DiceRoller {
 
 
     public static int rollDie(Dice die){
-        return rollRandomBetween(die.getMin(), die.getMax());
+        return rollRandomInt(die.getMin(), die.getMax());
     }
 
 
-    public static int rollRandomBetween(int min, int max){
+    public static int rollRandomInt(int min, int max){
 
-        return sRandom.nextInt((max - min) + 1) + min;
+        return sRandom.nextInt((max - min)) + min;
     }
 
 

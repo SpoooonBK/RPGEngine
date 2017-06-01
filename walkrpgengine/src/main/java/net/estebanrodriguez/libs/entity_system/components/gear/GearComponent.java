@@ -4,6 +4,7 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.ArmorComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.BodyPart;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.entities.GearManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -60,11 +61,11 @@ public class GearComponent extends EntityComponent {
 
 //    TODO Refactor equip method
     public void equip(GameEntity gear){
-        if(isWeapon(gear)){
+        if(GearManager.isWeapon(gear)){
             mMainWeapon = gear;
         }
-        if (isArmor(gear)) {
-            ArmorComponent armorComponent = (ArmorComponent) gear.getComponents().get(ARMOR_COMPONENT);
+        if (GearManager.isArmor(gear)) {
+            ArmorComponent armorComponent = GearManager.getArmorComponent(gear);
             mEquippedWeapons.put(armorComponent.getBodyPart(), gear);
         }
 
@@ -75,15 +76,7 @@ public class GearComponent extends EntityComponent {
     }
 
     public boolean isEquippable(GameEntity gear){
-        return (isWeapon(gear) || isArmor(gear));
-    }
-
-    public boolean isWeapon(GameEntity gear){
-        return gear.getComponents().containsKey(WEAPON_COMPONENT);
-    }
-
-    public boolean isArmor(GameEntity gear){
-        return gear.getComponents().containsKey(ARMOR_COMPONENT);
+        return (GearManager.isWeapon(gear) || GearManager.isArmor(gear));
     }
 
 
@@ -99,13 +92,13 @@ public class GearComponent extends EntityComponent {
                 stringBuilder.append(bodyPart.toString() + ": none\n" );
             } else{
                 GameEntity armor = mEquippedArmor.get(bodyPart);
-                ArmorComponent armorComponent = (ArmorComponent)armor.getComponents().get(ARMOR_COMPONENT);
+                ArmorComponent armorComponent = GearManager.getArmorComponent(armor);
                 stringBuilder.append(bodyPart.toString() + ": " + armorComponent.getName() + "\n");
             }
         }
 
         if(mMainWeapon != null){
-            WeaponComponent weaponComponent = (WeaponComponent) mMainWeapon.getComponents().get(WEAPON_COMPONENT);
+            WeaponComponent weaponComponent = GearManager.getWeaponComponent(mMainWeapon);
             stringBuilder.append(weaponComponent.getBodyPart().toString() + ": " + weaponComponent.getName() + "/n");
         }
 

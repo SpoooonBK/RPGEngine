@@ -13,7 +13,7 @@ public class StatsComponent extends EntityComponent {
     private final int TOTAL_NUMBER_OF_STATS = 4;
 
 
-    private LevelComponent mLevel;
+    private int mLevel;
 
     private int mCurrentHealth;
     private int mCurrentPower;
@@ -39,12 +39,13 @@ public class StatsComponent extends EntityComponent {
     private int mTotalStatPoints;
 
     public StatsComponent() {
-        this(new LevelComponent(1), 20);
+        this(1);
     }
 
 
-    public StatsComponent(LevelComponent level, int initialStatPoints){
+    public StatsComponent(int level){
         super(STATS_COMPONENT);
+        int initialStatPoints = 20 + level - 1;
         distributeStatPoints(initialStatPoints);
         mLevel = level;
         setMaxHealth();
@@ -83,8 +84,8 @@ public class StatsComponent extends EntityComponent {
     }
 
     public void setMaxHealth() {
-        if(mToughness > 0 && mLevel.getLevel() > 0){
-         mMaxHealth = (int)(mToughness * 5.0) * mLevel.getLevel();
+        if(mToughness > 0 && mLevel > 0){
+         mMaxHealth = (int)(mToughness * 5.0) * mLevel;
         }
     }
 
@@ -93,7 +94,7 @@ public class StatsComponent extends EntityComponent {
     }
 
     public void setMaxPower() {
-        mMaxPower = (int)((mMuscles * 2.5)+(mBrains * 2.5)) * mLevel.getLevel();
+        mMaxPower = (int)((mMuscles * 2.5)+(mBrains * 2.5)) * mLevel;
     }
 
     public int getMuscles() {
@@ -128,9 +129,8 @@ public class StatsComponent extends EntityComponent {
         mToughness = toughness;
     }
 
-    public LevelComponent getLevel() {
-        return mLevel;
-    }
+
+    public int getLevel(){return mLevel;}
 
     public int getMusclesModifier() {
         return mMusclesModifier;
@@ -179,10 +179,10 @@ public class StatsComponent extends EntityComponent {
         }
 
 
-        mMuscles = DiceRoller.rollRandomBetween(minPerStat, maxPerStat);
-        mBrains = DiceRoller.rollRandomBetween(minPerStat, maxPerStat);
-        mSpeed = DiceRoller.rollRandomBetween(minPerStat, maxPerStat);
-        mToughness = DiceRoller.rollRandomBetween(minPerStat, maxPerStat);
+        mMuscles = DiceRoller.rollRandomInt(minPerStat, maxPerStat);
+        mBrains = DiceRoller.rollRandomInt(minPerStat, maxPerStat);
+        mSpeed = DiceRoller.rollRandomInt(minPerStat, maxPerStat);
+        mToughness = DiceRoller.rollRandomInt(minPerStat, maxPerStat);
 
         setTotalStatPoints();
 
@@ -266,7 +266,7 @@ public class StatsComponent extends EntityComponent {
 
     public StatTypes getRandomStat(){
 
-        int roll = DiceRoller.rollRandomBetween(0, TOTAL_NUMBER_OF_STATS -1);
+        int roll = DiceRoller.rollRandomInt(0, TOTAL_NUMBER_OF_STATS -1);
         return StatTypes.values()[roll];
     }
 
@@ -308,8 +308,7 @@ public class StatsComponent extends EntityComponent {
     public String toString() {
 
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("LevelComponent: " + mLevel.getLevel() + "\n");
-        stringBuilder.append("StatsComponent: " + "\n");
+        stringBuilder.append("Level: " + mLevel + "\n");
         stringBuilder.append("Muscles: " + mMuscles + "\n");
         stringBuilder.append("Brains: " + mBrains + "\n");
         stringBuilder.append("Speed: " + mSpeed + "\n");
