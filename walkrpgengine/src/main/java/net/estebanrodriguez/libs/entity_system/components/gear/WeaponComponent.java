@@ -1,8 +1,8 @@
 package net.estebanrodriguez.libs.entity_system.components.gear;
 
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.BodyPart;
-import net.estebanrodriguez.libs.entity_system.engines.combat.DamageType;
+import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
+import net.estebanrodriguez.libs.entity_system.systems.combat.DamageType;
 import net.estebanrodriguez.libs.utilities.Dice;
 
 /**
@@ -11,6 +11,7 @@ import net.estebanrodriguez.libs.utilities.Dice;
 
 public class WeaponComponent extends EntityComponent {
 
+    public static final String COMPONENT_NAME = WeaponComponent.class.getSimpleName();
     private String mName;
     private BodyPart mBodyPart;
     private Dice mBaseDie;
@@ -19,14 +20,16 @@ public class WeaponComponent extends EntityComponent {
     private int mDamageModifier;
     private int mDefenseModifier;
     private DamageType mDamageType;
+    private int mWeaponSize;
 
 
-    public WeaponComponent(String name, BodyPart bodyPart, Dice baseDie, int dieMultiplier) {
-        super(WEAPON_COMPONENT);
+    public WeaponComponent(String name, BodyPart bodyPart, Dice baseDie, int dieMultiplier, int weaponSize) {
+        super(COMPONENT_NAME);
         mName = name;
         mBodyPart = bodyPart;
         mBaseDie = baseDie;
         mDieMultiplier = dieMultiplier;
+        mWeaponSize = weaponSize;
     }
 
     public String getName() {
@@ -91,5 +94,13 @@ public class WeaponComponent extends EntityComponent {
 
     public void setDamageType(DamageType damageType) {
         mDamageType = damageType;
+    }
+
+    public int getWeaponSize() {
+        return mWeaponSize;
+    }
+
+    public void setWeaponSize(int weaponSize) {
+        mWeaponSize = weaponSize;
     }
 }

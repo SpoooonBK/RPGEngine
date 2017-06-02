@@ -4,17 +4,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
-import net.estebanrodriguez.libs.entity_system.components.characters.common.BodyPart;
-import net.estebanrodriguez.libs.entity_system.components.gear.GearComponent;
+import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
+import net.estebanrodriguez.libs.entity_system.components.characters.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
-import net.estebanrodriguez.libs.entity_system.engines.combat.CombatEngine;
-import net.estebanrodriguez.libs.entity_system.engines.combat.CombatGroup;
+import net.estebanrodriguez.libs.entity_system.systems.combat.CombatEngine;
+import net.estebanrodriguez.libs.entity_system.systems.combat.CombatGroup;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.entity_system.factories.Mob;
 import net.estebanrodriguez.libs.entity_system.factories.MobFactory;
 import net.estebanrodriguez.libs.utilities.Dice;
-
-import java.util.List;
 
 import timber.log.Timber;
 

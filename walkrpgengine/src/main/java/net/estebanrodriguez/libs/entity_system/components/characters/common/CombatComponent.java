@@ -8,7 +8,9 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 
 public class CombatComponent extends EntityComponent {
 
+    public static final String COMPONENT_NAME = CombatComponent.class.getSimpleName();
+
     public CombatComponent() {
-        super(COMBAT_COMPONENT);
+        super(COMPONENT_NAME);
     }
 }

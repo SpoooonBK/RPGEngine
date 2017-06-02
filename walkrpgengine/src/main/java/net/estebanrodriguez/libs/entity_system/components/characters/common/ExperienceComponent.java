@@ -9,10 +9,11 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 
 public class ExperienceComponent extends EntityComponent {
 
+    public static final String COMPONENT_NAME = ExperienceComponent.class.getSimpleName();
     private int mTotalExperience;
 
     public ExperienceComponent() {
-        super(EXPERIENCE_COMPONENT);
+        super(COMPONENT_NAME);
         mTotalExperience = 0;
     }
 

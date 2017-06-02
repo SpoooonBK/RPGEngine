@@ -2,7 +2,7 @@ package net.estebanrodriguez.libs.entity_system.factories;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.components.gear.GearComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.GearComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
 

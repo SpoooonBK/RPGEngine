@@ -1,13 +1,13 @@
-package net.estebanrodriguez.libs.entity_system.engines.combat;
+package net.estebanrodriguez.libs.entity_system.systems.combat;
 
-import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.BodyPart;
-import net.estebanrodriguez.libs.entity_system.components.gear.GearComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.common.CombatComponent;
+import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
+import net.estebanrodriguez.libs.entity_system.components.characters.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.entity_system.factories.Mob;
-import net.estebanrodriguez.libs.entity_system.entities.CharacterManager;
 import net.estebanrodriguez.libs.utilities.Dice;
 import net.estebanrodriguez.libs.utilities.Roll;
 import net.estebanrodriguez.libs.utilities.RollTracker;
@@ -24,6 +24,8 @@ public class CombatEngine {
 
     private CombatEngine(){}
 
+
+
     private static class CombatEngineHelper{
         private  static final CombatEngine INSTANCE = new CombatEngine();
     }
@@ -37,7 +39,7 @@ public class CombatEngine {
 
 
     public void addCombatant(GameEntity gameEntity, CombatGroup combatGroup){
-        if(CharacterManager.canFight(gameEntity)){
+        if(canFight(gameEntity)){
             mCombatants.add(new Combatant(gameEntity, combatGroup));
         }
     }
@@ -138,7 +140,7 @@ public class CombatEngine {
         Map<BodyPart, GameEntity> armor = defenderGear.getEquippedArmor();
 
         WeaponComponent weaponComponent =
-                (WeaponComponent) attackerGear.getMainWeapon().getComponents().get(EntityComponent.WEAPON_COMPONENT);
+                (WeaponComponent) attackerGear.getMainWeapon().getComponents().get(WeaponComponent.COMPONENT_NAME);
 
 
         Roll roll = new Roll(weaponComponent.getEntityID(), weaponComponent.getBaseDie(), weaponComponent.getDieMultiplier());
@@ -196,6 +198,13 @@ public class CombatEngine {
     private boolean checkIfAlive(Combatant combatant){
         int health = combatant.getStatsComponent().getCurrentHealth();
         return (health > 0);
+    }
+
+    public static boolean canFight(GameEntity gameEntity) {
+        return gameEntity.has(CombatComponent.COMPONENT_NAME)
+                && gameEntity.has(GearComponent.COMPONENT_NAME)
+                && gameEntity.has(StatsComponent.COMPONENT_NAME)
+                && gameEntity.has(CharacterComponent.COMPONENT_NAME);
     }
 
 

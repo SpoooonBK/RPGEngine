@@ -1,11 +1,9 @@
-package net.estebanrodriguez.libs.entity_system.engines.combat;
+package net.estebanrodriguez.libs.entity_system.systems.combat;
 
-import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.gear.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.entities.CharacterException;
-import net.estebanrodriguez.libs.entity_system.entities.CharacterManager;
+import net.estebanrodriguez.libs.entity_system.entities.EntityManager;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.Dice;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
@@ -26,7 +24,7 @@ public final class Combatant {
 
     public Combatant(GameEntity gameEntity, CombatGroup combatGroup) {
 
-            if(CharacterManager.canFight(gameEntity)){
+            if(CombatEngine.canFight(gameEntity)){
                 if(combatGroup == CombatGroup.GROUP_RANDOM){
                     randomlyAssignToGroup();
                 } else{
@@ -34,9 +32,9 @@ public final class Combatant {
                 }
                 mGameEntity = gameEntity;
                 mId = gameEntity.getId();
-                mName = CharacterManager.getCharacterComponent(gameEntity).getName();
-                mStatsComponent = CharacterManager.getStatsComponent(gameEntity);
-                mGearComponent = CharacterManager.getGearComponent(gameEntity);
+                mName = ((CharacterComponent) gameEntity.get(CharacterComponent.COMPONENT_NAME)).getName();
+                mStatsComponent = (StatsComponent) gameEntity.get(StatsComponent.COMPONENT_NAME);
+                mGearComponent = (GearComponent) gameEntity.get(GearComponent.COMPONENT_NAME);
             } else throw new IllegalArgumentException("GameEntity cannot fight");
     }
 
@@ -61,7 +59,6 @@ public final class Combatant {
         return mGearComponent;
     }
 
-    private
 
     public String getName() {
         return mName;

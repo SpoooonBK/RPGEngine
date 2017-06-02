@@ -1,7 +1,8 @@
-package net.estebanrodriguez.libs.entity_system.components.characters.common;
+package net.estebanrodriguez.libs.entity_system.components.gear;
 
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
-import net.estebanrodriguez.libs.entity_system.engines.combat.DamageType;
+import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
+import net.estebanrodriguez.libs.entity_system.systems.combat.DamageType;
 
 /**
  * Created by spoooon on 5/30/17.
@@ -9,6 +10,7 @@ import net.estebanrodriguez.libs.entity_system.engines.combat.DamageType;
 
 public class ArmorComponent extends EntityComponent {
 
+    public final static String COMPONENT_NAME = ArmorComponent.class.getSimpleName();
     String mName;
     BodyPart mBodyPart;
     int mArmorClass;
@@ -21,7 +23,7 @@ public class ArmorComponent extends EntityComponent {
     }
 
     public ArmorComponent(String name, BodyPart bodyPart, int armorClass) {
-        super(ARMOR_COMPONENT);
+        super(COMPONENT_NAME);
         mName = name;
         mBodyPart = bodyPart;
         mArmorClass = armorClass;

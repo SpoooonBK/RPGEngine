@@ -1,7 +1,9 @@
 package net.estebanrodriguez.libs.entity_system.factories;
 
+import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.entities.EntityManager;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
-import net.estebanrodriguez.libs.entity_system.entities.CharacterManager;
+import net.estebanrodriguez.libs.entity_system.systems.combat.CombatEngine;
 
 import java.util.List;
 
@@ -26,7 +28,7 @@ public class Mob {
     }
 
     public boolean addGameEntityToMob(GameEntity gameEntity){
-        if (CharacterManager.canFight(gameEntity)){
+        if (CombatEngine.canFight(gameEntity)){
              return mGameEntities.add(gameEntity);
         }
         return false;
@@ -43,7 +45,8 @@ public class Mob {
     private void calcuateTotalLevels(){
         mTotalLevels = 0;
         for(GameEntity gameEntity: mGameEntities){
-            mTotalLevels = mTotalLevels + CharacterManager.getLevel(gameEntity);
+            mTotalLevels = mTotalLevels
+                    + ((StatsComponent)gameEntity.get(StatsComponent.COMPONENT_NAME)).getLevel();
         }
     }
 }

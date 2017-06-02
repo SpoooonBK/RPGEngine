@@ -9,10 +9,11 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 
 public class CharacterComponent extends EntityComponent {
 
+    public static final String COMPONENT_NAME = CharacterComponent.class.getSimpleName();
     private String mName;
 
     public CharacterComponent(String name) {
-        super(CHARACTER_COMPONENT);
+        super(COMPONENT_NAME);
         mName = name;
     }
 

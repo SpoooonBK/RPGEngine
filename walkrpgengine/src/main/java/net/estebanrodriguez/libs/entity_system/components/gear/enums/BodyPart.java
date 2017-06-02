@@ -1,4 +1,4 @@
-package net.estebanrodriguez.libs.entity_system.components.characters.common;
+package net.estebanrodriguez.libs.entity_system.components.gear.enums;
 
 /**
  * Created by spoooon on 5/30/17.

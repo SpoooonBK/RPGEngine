@@ -10,6 +10,7 @@ import net.estebanrodriguez.libs.utilities.DiceRoller;
 
 public class StatsComponent extends EntityComponent {
 
+    public static final String COMPONENT_NAME = StatsComponent.class.getSimpleName();
     private final int TOTAL_NUMBER_OF_STATS = 4;
 
 
@@ -44,7 +45,7 @@ public class StatsComponent extends EntityComponent {
 
 
     public StatsComponent(int level){
-        super(STATS_COMPONENT);
+        super(COMPONENT_NAME);
         int initialStatPoints = 20 + level - 1;
         distributeStatPoints(initialStatPoints);
         mLevel = level;

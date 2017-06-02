@@ -4,6 +4,7 @@ package net.estebanrodriguez.libs.entity_system.entities;
 
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,18 @@ public class GameEntity {
 
     public void setComponents(Map<String, EntityComponent> components) {
         mComponents = components;
+    }
+
+
+    //Shortcut Methods to avoid cumbersome has component and get component code
+    public boolean has(String componentName){
+        return this.getComponents().containsKey(componentName);
+    }
+
+    public EntityComponent get(String componentName){
+            if(has(componentName)){
+            return this.getComponents().get(componentName);
+        }else throw new IllegalArgumentException("GameEntity does not have " + componentName);
     }
 
 //Utilizes Builder pattern to create game entities using composition.

@@ -6,15 +6,6 @@ package net.estebanrodriguez.libs.entity_system.components;
 
 public abstract class EntityComponent {
 
-    public final static String ARMOR_COMPONENT = "armor_component";
-    public static final String STATS_COMPONENT = "stats_component";
-    public static final String CHARACTER_COMPONENT = "character_component";
-    public static final String COMBAT_COMPONENT = "combat_component";
-    public static final String EXPERIENCE_COMPONENT = "experience_component";
-    public static final String HEROIC_TYPE_COMPONENT = "heroic_type_component";
-    public static final String GEAR_COMPONENT = "gear_component";
-    public static final String LEVEL_COMPONENT = "level_component";
-    public static final String WEAPON_COMPONENT = "weapon_component";
     private String mComponentName;
     private String mEntityID;
 
@@ -33,5 +24,6 @@ public abstract class EntityComponent {
     public void bindEntityID(String entityID) {
         mEntityID = entityID;
     }
+
 }
 
