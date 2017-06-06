@@ -6,8 +6,11 @@ import net.estebanrodriguez.libs.entity_system.components.gear.ArmorComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by spoooon on 5/30/17.
@@ -15,16 +18,22 @@ import java.util.Map;
 
 public class GearComponent extends EntityComponent {
 
-
+    public static final int STANDARD_WEAPON_SLOTS = 3;
     public static final String COMPONENT_NAME = GearComponent.class.getSimpleName();
     private Map<BodyPart, GameEntity> mEquippedWeapons = new HashMap<>();
     private Map<BodyPart, GameEntity> mEquippedArmor = new HashMap<>();
-    private int mWeaponSlots = 3;
+    private int mTotalWeaponSlots;
 
 
     public GearComponent(){
         super(COMPONENT_NAME);
+        mTotalWeaponSlots = STANDARD_WEAPON_SLOTS;
     }
+    public GearComponent(int weaponSlots) {
+        super(COMPONENT_NAME);
+        mTotalWeaponSlots = weaponSlots;
+    }
+
 
     public Map<BodyPart, GameEntity> getEquippedWeapons() {
         return mEquippedWeapons;
@@ -34,12 +43,36 @@ public class GearComponent extends EntityComponent {
         return mEquippedArmor;
     }
 
-    public int getWeaponSlots() {
-        return mWeaponSlots;
+    public int getTotalWeaponSlots() {
+        return mTotalWeaponSlots;
     }
 
-    public void setWeaponSlots(int weaponSlots) {
-        this.mWeaponSlots = weaponSlots;
+    public void setTotalWeaponSlots(int totalWeaponSlots) {
+        this.mTotalWeaponSlots = totalWeaponSlots;
+    }
+
+    public List<WeaponComponent> getWeaponComponentList(){
+
+        List<WeaponComponent> weaponList = new ArrayList<>();
+            Set<BodyPart> keySet = mEquippedWeapons.keySet();
+            for(BodyPart bodyPart: keySet){
+                WeaponComponent weaponComponent = (WeaponComponent) mEquippedWeapons.get(bodyPart).get(WeaponComponent.COMPONENT_NAME);
+                weaponList.add(weaponComponent);
+            }
+
+        return weaponList;
+    }
+
+    public List<ArmorComponent> getArmorComponentList(){
+
+        List<ArmorComponent> armorList = new ArrayList<>();
+        Set<BodyPart> keySet = mEquippedArmor.keySet();
+        for(BodyPart bodyPart: keySet){
+            ArmorComponent armorComponent= (ArmorComponent) mEquippedArmor.get(bodyPart).get(ArmorComponent.COMPONENT_NAME);
+            armorList.add(armorComponent);
+        }
+
+        return armorList;
     }
 
     @Override

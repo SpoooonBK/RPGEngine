@@ -7,7 +7,9 @@ import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -43,7 +45,7 @@ public class EquipSystem {
         return false;
     }
 
-    public static boolean UnEquip(GameEntity character, GameEntity gear){
+    public static boolean unequip(GameEntity character, GameEntity gear){
         if(character.has(GearComponent.COMPONENT_NAME)){
             GearComponent gearComponent = (GearComponent)character.get(GearComponent.COMPONENT_NAME);
 
@@ -61,27 +63,43 @@ public class EquipSystem {
     }
 
 
-    public static boolean equipWeapon(GameEntity character, GearComponent gearComponent, GameEntity weapon){
+    private static boolean equipWeapon(GameEntity character, GearComponent gearComponent, GameEntity weapon){
 
-        int weaponMax = gearComponent.getWeaponSlots();
-        int availableSlots = weaponMax - gearComponent.getEquippedWeapons().size();
+        int totalWeaponSlots = gearComponent.getTotalWeaponSlots();
+        List<WeaponComponent> weaponComponentList = gearComponent.getWeaponComponentList();
+
+
+        //Calcuate available slots
+        int slotsInUse = getSlotsInUse(gearComponent);
+        int availableSlots = totalWeaponSlots - slotsInUse;
+
         WeaponComponent weaponComponent = (WeaponComponent) weapon.get(WeaponComponent.COMPONENT_NAME);
         int weaponSize = weaponComponent.getWeaponSize();
 
-        if(weaponMax > availableSlots  && weaponMax > weaponSize){
+        if(weaponSize > totalWeaponSlots){
+            return false;
+        }
 
-            if(weaponMax < weaponSize + availableSlots){
-                Set<BodyPart> bodyParts = gearComponent.getEquippedWeapons().keySet();
-                bodyParts.
-            }
-
+        if(totalWeaponSlots >= slotsInUse + weaponSize){
             BodyPart bodyPart = weaponComponent.getBodyPart();
             gearComponent.getEquippedWeapons().put(bodyPart, weapon);
             notifyListeners(character, weapon);
             return true;
-        } else
+        } else {
+            Set<BodyPart> bodyParts = gearComponent.getEquippedWeapons().keySet();
+            Iterator<BodyPart> iterator = bodyParts.iterator();
+            while (totalWeaponSlots< availableSlots + weaponSize){
+                unequip(character, gearComponent.getEquippedWeapons().get(iterator.next()));
+            }
+            BodyPart bodyPart = weaponComponent.getBodyPart();
+            gearComponent.getEquippedWeapons().put(bodyPart, weapon);
+            notifyListeners(character, weapon);
+            return true;
+        }
 
     }
+
+
 
     public static boolean isEquippable(GameEntity gear){
         return gear.has(WeaponComponent.COMPONENT_NAME)
@@ -107,6 +125,21 @@ public class EquipSystem {
         }
 
     }
+
+    private static int getSlotsInUse(GearComponent gearComponent){
+
+        List<WeaponComponent> weaponComponentList = gearComponent.getWeaponComponentList();
+
+        //Calcuate available slots
+        int slotsInUse = 0;
+        for(WeaponComponent weaponComponent: weaponComponentList){
+            slotsInUse = slotsInUse + weaponComponent.getWeaponSize();
+        }
+        return slotsInUse;
+    }
+
+
+
 
 
 }

@@ -136,11 +136,10 @@ public class CombatEngine {
         GearComponent attackerGear = attacker.getGearComponent();
         GearComponent defenderGear = defender.getGearComponent();
 
-        Map<BodyPart, GameEntity> weapons = attackerGear.getEquippedWeapons();
-        Map<BodyPart, GameEntity> armor = defenderGear.getEquippedArmor();
+        List<WeaponComponent> weaponComponentList = attackerGear.getWeaponComponentList();
 
         WeaponComponent weaponComponent =
-                (WeaponComponent) attackerGear.getMainWeapon().getComponents().get(WeaponComponent.COMPONENT_NAME);
+                (WeaponComponent) weaponComponentList.get(0);
 
 
         Roll roll = new Roll(weaponComponent.getEntityID(), weaponComponent.getBaseDie(), weaponComponent.getDieMultiplier());

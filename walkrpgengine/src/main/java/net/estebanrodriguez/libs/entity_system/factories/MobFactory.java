@@ -94,7 +94,7 @@ public class MobFactory implements GameEntityFactory {
         int count = 0;
         for(Integer level: mobLevels){
             count++;
-            createGameEntity(level, "Rando" + count);
+            mobList.add(createGameEntity(level, "Rando" + count));
         }
 
         return new Mob(mobList);
