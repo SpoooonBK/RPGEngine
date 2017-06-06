@@ -3,6 +3,7 @@ package net.estebanrodriguez.libs.entity_system.entities;
 
 
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
+import net.estebanrodriguez.libs.entity_system.systems.combat.Team;
 
 import java.awt.Component;
 import java.util.ArrayList;
@@ -55,6 +56,9 @@ public class GameEntity {
 
     public static class Builder{
 
+
+
+        private Builder(){}
 
         private GameEntity instance = new GameEntity();
 

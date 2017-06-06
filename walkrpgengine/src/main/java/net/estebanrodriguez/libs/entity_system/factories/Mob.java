@@ -4,6 +4,7 @@ import net.estebanrodriguez.libs.entity_system.components.characters.common.Stat
 import net.estebanrodriguez.libs.entity_system.entities.EntityManager;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.entity_system.systems.combat.CombatEngine;
+import net.estebanrodriguez.libs.entity_system.systems.inventory.EquipSystem;
 
 import java.util.List;
 
@@ -27,12 +28,6 @@ public class Mob {
         return mGameEntities;
     }
 
-    public boolean addGameEntityToMob(GameEntity gameEntity){
-        if (CombatEngine.canFight(gameEntity)){
-             return mGameEntities.add(gameEntity);
-        }
-        return false;
-    }
 
     public int getTotalLevels() {
         return mTotalLevels;
@@ -47,6 +42,18 @@ public class Mob {
         for(GameEntity gameEntity: mGameEntities){
             mTotalLevels = mTotalLevels
                     + ((StatsComponent)gameEntity.get(StatsComponent.COMPONENT_NAME)).getLevel();
+        }
+    }
+
+    public void equipMob(GameEntity gear){
+        for(GameEntity character: mGameEntities){
+            EquipSystem.equip(character, gear);
+        }
+    }
+
+    public void equipMob(List<GameEntity> gearList){
+        for(GameEntity gear: gearList){
+            equipMob(gear);
         }
     }
 }

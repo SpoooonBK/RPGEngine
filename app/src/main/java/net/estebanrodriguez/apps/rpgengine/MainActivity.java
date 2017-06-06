@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 
+import net.estebanrodriguez.libs.entity_system.components.gear.ArmorComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.characters.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
@@ -12,8 +13,12 @@ import net.estebanrodriguez.libs.entity_system.systems.combat.CombatGroup;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.entity_system.factories.Mob;
 import net.estebanrodriguez.libs.entity_system.factories.MobFactory;
+import net.estebanrodriguez.libs.entity_system.systems.combat.Team;
 import net.estebanrodriguez.libs.entity_system.systems.inventory.EquipSystem;
 import net.estebanrodriguez.libs.utilities.Dice;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import timber.log.Timber;
 
@@ -35,18 +40,35 @@ public class MainActivity extends AppCompatActivity {
                 .add(new WeaponComponent("Sharp Toe Nails", BodyPart.FEET, Dice.D2, 2, 1))
                 .build();
 
+        GameEntity armor1 = GameEntity.getBuilder()
+                .add(new ArmorComponent("Holey T-shirt", BodyPart.TORSO, 1))
+                .build();
+
+        List<GameEntity> gearList = new ArrayList<>();
+        gearList.add(weapon1);
+        gearList.add(weapon2);
+        gearList.add(armor1);
+
         MobFactory mobFactory = new MobFactory();
         Mob mob = mobFactory.createLevelTargetedMob(12, 4, MobFactory.LevelPreference.RANDOM_LEVEL);
-        for(GameEntity gameEntity: mob.getGameEntities()){
-            EquipSystem.equip(gameEntity, weapon1);
-            CombatEngine.getInstance().addCombatant(gameEntity, CombatGroup.GROUP_A);
-        }
+        mob.equipMob(gearList);
 
         Mob mob2 = mobFactory.createLevelTargetedMob(12, 4, MobFactory.LevelPreference.RANDOM_LEVEL);
-        for(GameEntity gameEntity: mob.getGameEntities()){
-            EquipSystem.equip(gameEntity, weapon2);
-            CombatEngine.getInstance().addCombatant(gameEntity, CombatGroup.GROUP_B);
-        }
+        mob2.equipMob(gearList);
+
+        Team strong = Team.getBuilder()
+                .add(mob)
+                .setName("Strong")
+                .build();
+
+        Team weak = Team.getBuilder()
+                .add(mob2)
+                .setName("Weak")
+                .build();
+
+        CombatEngine.getInstance().addTeam(strong);
+        CombatEngine.getInstance().addTeam(weak);
+
 
 
 

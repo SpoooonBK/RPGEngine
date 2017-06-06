@@ -5,6 +5,7 @@ import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.characters.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.factories.Mob;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -137,6 +138,7 @@ public class EquipSystem {
         }
         return slotsInUse;
     }
+
 
 
 
