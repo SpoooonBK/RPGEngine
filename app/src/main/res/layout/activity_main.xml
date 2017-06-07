@@ -7,22 +7,45 @@
     android:layout_height="match_parent"
     tools:context="net.estebanrodriguez.apps.rpgengine.MainActivity">
 
-    <TextView
-        android:id="@+id/character_1"
+    <LinearLayout
+        android:id="@+id/character_1_holder"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/character_2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        />
+        <TextView
+            android:id="@+id/character_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+        <Button
+            android:id="@+id/character_1_skill"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+ <LinearLayout
+     android:id="@+id/character_2_holder"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:orientation="vertical">
+     <TextView
+         android:id="@+id/character_2"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintRight_toRightOf="parent"
+         app:layout_constraintTop_toTopOf="parent"
+         />
+     <Button
+         android:id="@+id/character_2_skill"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"/>
+ </LinearLayout>
+
+
 
 </android.support.constraint.ConstraintLayout>

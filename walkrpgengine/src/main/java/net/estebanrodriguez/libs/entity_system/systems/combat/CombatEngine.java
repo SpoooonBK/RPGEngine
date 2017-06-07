@@ -35,6 +35,7 @@ public class CombatEngine {
 
     private List<Combatant> mCombatants = new ArrayList<>();
     private List<Team> mTeams = new ArrayList<>();
+    private int turnIndex;
 
 
     public void addTeam(Team team){
@@ -59,7 +60,25 @@ public class CombatEngine {
         }
     }
 
-    public Fight executeCombat() {
+
+    public Fight  executeCombat(){
+        Fight fight = new Fight(mTeams);
+        if(mTeams.size() >=2){
+            rollForInitiative();
+        }
+        fight.addCombatRound(executeCombatRound());
+
+        return fight;
+    }
+
+    public CombatRound executeCombatRound(){
+        StringBuilder stringBuilder = new StringBuilder();
+
+    }
+
+
+
+    public Fight executeAutoCombat() {
 
         Fight fight = new Fight(mTeams);
 
@@ -69,7 +88,7 @@ public class CombatEngine {
         }
 
         while (!hasWinner()) {
-            fight.addCombatRound(executeCombatRound());
+            fight.addCombatRound(executeAutoCombatRound());
         }
             fight.setWinner(getWinner());
 
@@ -78,7 +97,7 @@ public class CombatEngine {
 
 
     //For Testing purposes
-    public CombatRound executeCombatRound() {
+    public CombatRound executeAutoCombatRound() {
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -182,7 +201,7 @@ public class CombatEngine {
     }
 
 
-    private void rollForInitiative() {
+    public void rollForInitiative() {
 
         RollTracker rollTracker = new RollTracker();
 
@@ -237,6 +256,23 @@ public class CombatEngine {
             }
         }
         return null;
+    }
+
+    public Combatant getCombatantByID(String id){
+        for(Combatant combatant: mCombatants){
+            if (id.equals(combatant.getId())) {
+                return combatant;
+            }
+        }
+        return null;
+    }
+
+    public Combatant getCurrentCombatant(){
+        return mCombatants.get(turnIndex);
+    }
+
+    private void incrementTurn(){
+        turnIndex++;
     }
 
 

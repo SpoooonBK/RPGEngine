@@ -20,6 +20,7 @@ public final class Combatant {
     private GameEntity mGameEntity;
     private StatsComponent mStatsComponent;
     private GearComponent mGearComponent;
+    private Combatant mTarget;
 
 
     public Combatant(GameEntity gameEntity) {
@@ -30,7 +31,7 @@ public final class Combatant {
                 mName = ((CharacterComponent) gameEntity.get(CharacterComponent.COMPONENT_NAME)).getName();
                 mStatsComponent = (StatsComponent) gameEntity.get(StatsComponent.COMPONENT_NAME);
                 mGearComponent = (GearComponent) gameEntity.get(GearComponent.COMPONENT_NAME);
-            } else throw new IllegalArgumentException("GameEntity cannot executeCombat");
+            } else throw new IllegalArgumentException("GameEntity cannot executeAutoCombat");
     }
 
 
@@ -38,6 +39,13 @@ public final class Combatant {
         return mId;
     }
 
+    public Combatant getTarget() {
+        return mTarget;
+    }
+
+    public void setTarget(Combatant target) {
+        mTarget = target;
+    }
 
     public GameEntity getGameEntity() {
         return mGameEntity;
