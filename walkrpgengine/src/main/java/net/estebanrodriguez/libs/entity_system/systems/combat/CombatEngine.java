@@ -59,27 +59,26 @@ public class CombatEngine {
         }
     }
 
-    public String fight() {
+    public Fight executeCombat() {
 
-        StringBuilder stringBuilder = new StringBuilder();
+        Fight fight = new Fight(mTeams);
+
 
         if (mTeams.size() >= 2) {
             rollForInitiative();
         }
 
         while (!hasWinner()) {
-            String result = executeAttackRound();
-            stringBuilder.append(result);
+            fight.addCombatRound(executeCombatRound());
         }
+            fight.setWinner(getWinner());
 
-            stringBuilder.append(getWinner().getTeamName() + " wins!");
-
-        return stringBuilder.toString();
+        return fight;
     }
 
 
     //For Testing purposes
-    public String executeAttackRound() {
+    public CombatRound executeCombatRound() {
 
         StringBuilder stringBuilder = new StringBuilder();
 
@@ -89,20 +88,25 @@ public class CombatEngine {
                 stringBuilder.append(result + "\n");
             }
         }
-        return stringBuilder.toString();
+        return new CombatRound(stringBuilder.toString());
     }
 
 
     public String attack(Combatant attacker, Combatant defender) {
 
         StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("Attacker: " + attacker.getName() +"\n");
+        stringBuilder.append("Health: " + attacker.getStatsComponent().getCurrentHealth() + "\n");
+        stringBuilder.append("Defender: " + defender.getName() +"\n");
+        stringBuilder.append("Health: " + defender.getStatsComponent().getCurrentHealth() + "\n" );
+
 
         if (rollForHit(attacker, defender)) {
             int damage = rollForDamage(attacker, defender);
             defender.getStatsComponent().decrementHealth(damage);
             stringBuilder.append(attacker.getName()
                     + " hits " + defender.getName()
-                    + "for " + damage + " damage!\n");
+                    + " for " + damage + " damage!\n");
 
             if (!defender.isAlive()) {
                 stringBuilder.append(attacker.getName() + " defeats " + defender.getName() + "!\n");
@@ -113,31 +117,33 @@ public class CombatEngine {
     }
 
 
+    private Team chooseRandomDefendingTeam(Combatant attacker){
+        int index = DiceRoller.rollRandomInt(0, (mTeams.size() - 1));
+        Team randomTeam = mTeams.get(index);
+        if(!randomTeam.contains(attacker) && randomTeam.isAlive()){
+            return randomTeam;
+        }else chooseRandomDefendingTeam(attacker);
+        return null;
+    }
+
+
     //For Testing purposes
     private Combatant chooseDefender(Combatant attacker) {
 
         Team attackingTeam = null;
-        Team defendingTeam = null;
 
         for(Team team: mTeams){
             if(team.contains(attacker)){
                 attackingTeam = team;
             }
         }
-        for (Team team: mTeams){
-           if(team != attackingTeam){
-               defendingTeam = team;
-           }
+
+        for(Combatant combatant: mCombatants){
+            if(combatant.isAlive() && !attackingTeam.contains(combatant)){
+                return combatant;
+            }
         }
 
-        int index = 0;
-
-        if(defendingTeam.size() > 1) {
-            index = DiceRoller.rollRandomInt(0, (defendingTeam.getCombatants().size() - 1));
-        }
-        if(defendingTeam.getCombatants().get(index).isAlive()){
-            return defendingTeam.getCombatants().get(index);
-        }else chooseDefender(attacker);
         return null;
     }
 

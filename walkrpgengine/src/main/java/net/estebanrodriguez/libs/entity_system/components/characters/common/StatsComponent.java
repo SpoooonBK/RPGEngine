@@ -86,7 +86,7 @@ public class StatsComponent extends EntityComponent {
 
     public void setMaxHealth() {
         if(mToughness > 0 && mLevel > 0){
-         mMaxHealth = (int)(mToughness * 5.0) * mLevel;
+         mMaxHealth = (int)((mToughness * 5.0) +  (mLevel * 3.0));
         }
     }
 

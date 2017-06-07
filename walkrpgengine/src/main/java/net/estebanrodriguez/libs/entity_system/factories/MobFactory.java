@@ -38,13 +38,13 @@ public class MobFactory implements GameEntityFactory {
     }
 
 
-    public Mob createMob(int mobSize, int maxLevel, LevelPreference levelPreference){
+    public Mob createMob(String name, int mobSize, int maxLevel, LevelPreference levelPreference){
         List<GameEntity> mobList = new ArrayList<>();
 
         switch (levelPreference){
             case RANDOM_LEVEL:{
                 for(int i = 0; i < mobSize; i++){
-                    mobList.add(createGameEntity(DiceRoller.rollRandomInt(1, maxLevel)));
+                    mobList.add(createGameEntity(DiceRoller.rollRandomInt(1, maxLevel), name));
                 }
                 break;
             }
@@ -58,7 +58,7 @@ public class MobFactory implements GameEntityFactory {
         return new Mob(mobList);
     }
 
-    public Mob createLevelTargetedMob(int targetLevel, int maxMobSize, LevelPreference levelPreference){
+    public Mob createLevelTargetedMob(String name, int targetLevel, int maxMobSize, LevelPreference levelPreference){
 
         int totalLevels = 0;
         List<Integer> mobLevels = new ArrayList<>();
@@ -94,7 +94,7 @@ public class MobFactory implements GameEntityFactory {
         int count = 0;
         for(Integer level: mobLevels){
             count++;
-            mobList.add(createGameEntity(level, "Rando" + count));
+            mobList.add(createGameEntity(level, name + count));
         }
 
         return new Mob(mobList);

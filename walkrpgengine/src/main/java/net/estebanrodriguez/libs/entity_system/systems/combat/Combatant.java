@@ -20,7 +20,6 @@ public final class Combatant {
     private GameEntity mGameEntity;
     private StatsComponent mStatsComponent;
     private GearComponent mGearComponent;
-    private Team mTeam;
 
 
     public Combatant(GameEntity gameEntity) {
@@ -31,7 +30,7 @@ public final class Combatant {
                 mName = ((CharacterComponent) gameEntity.get(CharacterComponent.COMPONENT_NAME)).getName();
                 mStatsComponent = (StatsComponent) gameEntity.get(StatsComponent.COMPONENT_NAME);
                 mGearComponent = (GearComponent) gameEntity.get(GearComponent.COMPONENT_NAME);
-            } else throw new IllegalArgumentException("GameEntity cannot fight");
+            } else throw new IllegalArgumentException("GameEntity cannot executeCombat");
     }
 
 
@@ -69,11 +68,4 @@ public final class Combatant {
         return (mStatsComponent.getCurrentHealth() > 0);
     }
 
-    public Team getTeam() {
-        return mTeam;
-    }
-
-    public void setTeam(Team team) {
-        mTeam = team;
-    }
 }
