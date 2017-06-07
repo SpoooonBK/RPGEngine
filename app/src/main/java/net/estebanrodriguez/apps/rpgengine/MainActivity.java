@@ -9,7 +9,6 @@ import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.characters.GearComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.systems.combat.CombatEngine;
-import net.estebanrodriguez.libs.entity_system.systems.combat.CombatGroup;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.entity_system.factories.Mob;
 import net.estebanrodriguez.libs.entity_system.factories.MobFactory;
@@ -71,50 +70,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
-
-//        GameEntity gameEntity1 = GameEntity.getBuilder()
-//                .add(new CharacterComponent("Fred (GroupA)"))
-//                .add(new StatsComponent())
-//                .add(new GearComponent(weapon1))
-//                .add(new CombatComponent())
-//                .build();
-//
-//        GameEntity gameEntity2 = GameEntity.getBuilder()
-//                .add(new CharacterComponent("Bob (GroupA)"))
-//                .add(new StatsComponent())
-//                .add(new GearComponent(weapon2))
-//                .add(new CombatComponent())
-//                .build();
-//
-//        GameEntity gameEntity3 = GameEntity.getBuilder()
-//                .add(new CharacterComponent("Harvey (GroupB)"))
-//                .add(new StatsComponent())
-//                .add(new GearComponent(weapon1))
-//                .add(new CombatComponent())
-//                .build();
-//
-//        GameEntity gameEntity4 = GameEntity.getBuilder()
-//                .add(new CharacterComponent("May (GroupB)"))
-//                .add(new StatsComponent())
-//                .add(new GearComponent(weapon2))
-//                .add(new CombatComponent())
-//                .build();
-//
-//        CombatEngine.getInstance().addCombatant(gameEntity1, CombatGroup.GROUP_A);
-//        CombatEngine.getInstance().addCombatant(gameEntity2, CombatGroup.GROUP_A);
-//        CombatEngine.getInstance().addCombatant(gameEntity3, CombatGroup.GROUP_B);
-//        CombatEngine.getInstance().addCombatant(gameEntity4, CombatGroup.GROUP_B);
-
         String result = CombatEngine.getInstance().fight();
         Timber.v(result);
-//
-//        TextView character1Text = (TextView) findViewById(R.id.character_1);
-//        TextView character2Text = (TextView) findViewById(R.id.character_2);
-
-//        character1Text.setText(gameEntity1.toString());
-//        character2Text.setText(gameEntity2.toString());
-
 
 
 

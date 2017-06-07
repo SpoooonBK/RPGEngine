@@ -17,7 +17,6 @@ public final class Combatant {
 
     private String mId;
     private String mName;
-    private CombatGroup mCombatGroup;
     private GameEntity mGameEntity;
     private StatsComponent mStatsComponent;
     private GearComponent mGearComponent;
@@ -40,9 +39,6 @@ public final class Combatant {
         return mId;
     }
 
-    public CombatGroup getCombatGroup() {
-        return mCombatGroup;
-    }
 
     public GameEntity getGameEntity() {
         return mGameEntity;
@@ -61,13 +57,6 @@ public final class Combatant {
         return mName;
     }
 
-
-    private void randomlyAssignToGroup(){
-        int roll = DiceRoller.rollDie(Dice.D2);
-        if(roll == 1){
-            mCombatGroup = CombatGroup.GROUP_A;
-        }else mCombatGroup = CombatGroup.GROUP_B;
-    }
 
     public static boolean canFight(GameEntity gameEntity) {
         return gameEntity.has(CombatComponent.COMPONENT_NAME)
