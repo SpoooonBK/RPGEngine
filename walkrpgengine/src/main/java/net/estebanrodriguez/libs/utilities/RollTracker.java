@@ -24,7 +24,7 @@ public class RollTracker {
         mRolls.add(roll);
     }
 
-    public void sortByHighest(){
+    public void sortByHighestToLowest(){
 
         Collections.sort(mRolls, new Comparator<Roll>() {
             @Override

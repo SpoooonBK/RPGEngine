@@ -6,11 +6,8 @@ import net.estebanrodriguez.libs.entity_system.components.characters.GearCompone
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
-import net.estebanrodriguez.libs.entity_system.factories.Mob;
-import net.estebanrodriguez.libs.utilities.Dice;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
 import net.estebanrodriguez.libs.utilities.Roll;
-import net.estebanrodriguez.libs.utilities.RollTracker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,56 +35,48 @@ public class CombatEngine {
     private int turnIndex;
 
 
-    public void addTeam(Team team){
-        if(team.size() > 0){
-            mTeams.add(team);
-            for(Combatant combatant: team.getCombatants()){
-                mCombatants.add(combatant);
-            }
-        }
-    }
+
+//    public void addCombatant(GameEntity gameEntity, Team team) {
+//        if (canFight(gameEntity)) {
+//            mCombatants.add(new Combatant(gameEntity));
+//        }
+//    }
+//
+//    public void addMob(Mob mob, Team team) {
+//        for (GameEntity gameEntity : mob.getGameEntities()) {
+//            addCombatant(gameEntity, team);
+//        }
+//    }
 
 
-    public void addCombatant(GameEntity gameEntity, Team team) {
-        if (canFight(gameEntity)) {
-            mCombatants.add(new Combatant(gameEntity));
-        }
-    }
-
-    public void addMob(Mob mob, Team team) {
-        for (GameEntity gameEntity : mob.getGameEntities()) {
-            addCombatant(gameEntity, team);
-        }
-    }
 
 
-    public Fight  executeCombat(){
-        Fight fight = new Fight(mTeams);
-        if(mTeams.size() >=2){
-            rollForInitiative();
-        }
-        fight.addCombatRound(executeCombatRound());
-
-        return fight;
-    }
-
-    public CombatRound executeCombatRound(){
+    public CombatRound executeCombatRound(Fight fight, int round){
         StringBuilder stringBuilder = new StringBuilder();
+        List<Combatant> combatants = fight.getCombatantAttackQueue();
+        int totalTurns = combatants.size();
+        CombatRound combatRound = new CombatRound(round, totalTurns);
+        for(int i = 0; i < totalTurns; i++){
+            executeCombatTurn(fight.getCombatantByAttackQueueIndex(i));
+        }
+
+    }
+
+    private void executeCombatTurn(Combatant attacker) {
+        attacker.getTarget();
 
     }
 
 
-
-    public Fight executeAutoCombat() {
-
-        Fight fight = new Fight(mTeams);
+    public Fight executeAutoCombat(Fight fight) {
 
 
-        if (mTeams.size() >= 2) {
-            rollForInitiative();
+
+        if (fight.getTeams().size() >= 2) {
+            rollForInitiative(fight);
         }
 
-        while (!hasWinner()) {
+        while (!hasWinner(fight)) {
             fight.addCombatRound(executeAutoCombatRound());
         }
             fight.setWinner(getWinner());
@@ -201,29 +190,7 @@ public class CombatEngine {
     }
 
 
-    public void rollForInitiative() {
 
-        RollTracker rollTracker = new RollTracker();
-
-        for (Combatant combatant : mCombatants) {
-            Roll roll = new Roll(combatant.getId(), Dice.D20);
-            roll.addModifier(combatant.getStatsComponent().getSpeedModifier());
-            rollTracker.addRoll(roll);
-        }
-
-        rollTracker.sortByHighest();
-
-        List<Combatant> initiativeOrder = new ArrayList<>();
-        for (Roll roll : rollTracker.getRolls()) {
-            for (Combatant combatant : mCombatants) {
-                if (combatant.getId().equals(roll.getID())) {
-                    initiativeOrder.add(combatant);
-                    break;
-                }
-            }
-        }
-        mCombatants = initiativeOrder;
-    }
 
 
     public static boolean canFight(GameEntity gameEntity) {
@@ -234,29 +201,6 @@ public class CombatEngine {
     }
 
 
-    private boolean hasWinner(){
-
-        int alive = 0;
-        for(Team team: mTeams){
-            if(team.isAlive()){
-                alive ++;
-            }
-        }
-        if(alive == 1){
-            return true;
-        }else return false;
-    }
-
-    private Team getWinner(){
-        if(hasWinner()){
-            for(Team team : mTeams){
-                if(team.isAlive()){
-                    return team;
-                }
-            }
-        }
-        return null;
-    }
 
     public Combatant getCombatantByID(String id){
         for(Combatant combatant: mCombatants){
