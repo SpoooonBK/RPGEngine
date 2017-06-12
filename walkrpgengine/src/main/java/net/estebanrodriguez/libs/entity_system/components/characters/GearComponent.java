@@ -5,6 +5,8 @@ import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.gear.ArmorComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.systems.inventory.Equipper;
+import net.estebanrodriguez.libs.entity_system.systems.inventory.OnEquipChangeListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,11 +49,27 @@ public class GearComponent extends EntityComponent {
         return mTotalWeaponSlots;
     }
 
+    public int getAvailableWeaponSlots(){
+        return getTotalWeaponSlots() - getWeaponSlotsUsed();
+    }
+
+
+
     public void setTotalWeaponSlots(int totalWeaponSlots) {
         this.mTotalWeaponSlots = totalWeaponSlots;
     }
 
-    public List<WeaponComponent> getWeaponComponentList(){
+    public int getWeaponSlotsUsed(){
+
+        int slotsInUse = 0;
+        for(WeaponComponent weaponComponent: getEquippedWeaponList()){
+            slotsInUse = slotsInUse + weaponComponent.getWeaponSize();
+        }
+        return slotsInUse;
+    }
+
+
+    public List<WeaponComponent> getEquippedWeaponList(){
 
         List<WeaponComponent> weaponList = new ArrayList<>();
             Set<BodyPart> keySet = mEquippedWeapons.keySet();
@@ -74,6 +92,16 @@ public class GearComponent extends EntityComponent {
 
         return armorList;
     }
+
+    public boolean isBodyPartOccupiedByWeapon(BodyPart bodyPart){
+        return mEquippedWeapons.containsKey(bodyPart);
+    }
+
+    public boolean isBodyPartOccupiedByArmor(BodyPart bodyPart){
+        return mEquippedWeapons.containsKey(bodyPart);
+    }
+
+
 
     @Override
     public String toString() {

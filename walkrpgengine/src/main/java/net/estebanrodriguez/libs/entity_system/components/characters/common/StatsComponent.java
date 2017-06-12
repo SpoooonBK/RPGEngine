@@ -4,7 +4,9 @@ import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 
 /**
@@ -14,13 +16,6 @@ import java.util.Map;
 public class StatsComponent extends EntityComponent {
 
     public static final String COMPONENT_NAME = StatsComponent.class.getSimpleName();
-    private final int BASE_STAT_POINTS = 20;
-    private final double VARIANCE_MULTIPLIER = 3/4;
-
-    private final int TOTAL_NUMBER_OF_STAT_TYPES = StatTypes.values().length;
-
-
-
 
     private int mLevel;
 
@@ -32,28 +27,9 @@ public class StatsComponent extends EntityComponent {
 
     private Map<StatType, Stat> mStats = new HashMap<>();
 
-    private Stat mMuscles;
-    private Stat mBrains;
-    private Stat mSpeed;
-    private Stat mToughness;
-
-    private int mMusclesModifier;
-    private int mBrainsModifier;
-    private int mSpeedModifier;
-    private int mToughnessModifier;
 
     private int mDefense;
     private int mDamageReduction;
-    private int mInitialStatPoints;
-    private int mMinimumInitialStatPoints;
-
-    private int mMaximumInitialStatPointsPerStat;
-    private int mMinimumInitialStatPointPerStat;
-    private int mStatPointVariance;
-
-
-
-    private int mTotalStatPoints;
 
     public StatsComponent() {
         this(1);
@@ -62,16 +38,32 @@ public class StatsComponent extends EntityComponent {
 
     public StatsComponent(int level){
         super(COMPONENT_NAME);
-        int initialStatPoints = 20 + level - 1;
-        distributeStatPoints(initialStatPoints);
         mLevel = level;
+        setStats();
+        StatPointDistributor distributor = new StatPointDistributor(this);
+        distributor.distributeStatPoints();
         setMaxHealth();
         setMaxPower();
         mCurrentHealth = mMaxHealth;
         mCurrentPower = mMaxPower;
-        calculateModifiers();
         calculateDefense();
         calculateDamageReduction();
+    }
+
+    private void setStats() {
+
+        mStats.put(StatType.MUSCLES, new Stat(StatType.MUSCLES));
+        mStats.put(StatType.BRAINS, new Stat(StatType.BRAINS));
+        mStats.put(StatType.SPEED, new Stat(StatType.SPEED));
+        mStats.put(StatType.TOUGHNESS, new Stat(StatType.TOUGHNESS));
+    }
+
+    public int getTotalNumberOfStatTypes(){
+        return mStats.size();
+    }
+
+    public Set<StatType> getStatTypes(){
+        return mStats.keySet();
     }
 
 
@@ -79,6 +71,11 @@ public class StatsComponent extends EntityComponent {
     private int getStatValue(StatType statType) {
         Stat stat = getStat(statType);
         return stat.getValue();
+    }
+
+    private int getStatModifier(StatType statType){
+        Stat stat = getStat(statType);
+        return stat.getModifier();
     }
 
     private Stat getStat(StatType statType) {
@@ -108,26 +105,27 @@ public class StatsComponent extends EntityComponent {
         stat.decreaseValueBy(decrease);
     }
 
-    private void setStatValue(StatType statType, int value){
+    public void setStatValue(StatType statType, int value){
         Stat stat = getStat(statType);
         stat.setValue(value);
     }
 
-    public int getMusclesValue(){
+    public int getMuscles(){
         return getStatValue(StatType.MUSCLES);
     }
 
-    public int getBrainsValue(){
+    public int getBrains(){
         return getStatValue(StatType.BRAINS);
     }
 
-    public int getSpeedValue(){
+    public int getSpeed(){
         return getStatValue(StatType.SPEED);
     }
 
-    public int getToughnessValue(){
+    public int getToughness(){
         return getStatValue(StatType.TOUGHNESS);
     }
+
 
     public boolean hasStat(StatType statType){
         return mStats.containsKey(statType);
@@ -197,26 +195,24 @@ public class StatsComponent extends EntityComponent {
         decreaseStatBy(StatType.TOUGHNESS, decrease);
     }
 
-    public void setMusclesValue(int value){
+    public void setMuscles(int value){
         setStatValue(StatType.MUSCLES, value);
     }
 
-    public void setBrainsValue(int value){
+    public void setBrains(int value){
         setStatValue(StatType.BRAINS, value);
     }
 
-    public void setSpeedValue(int value){
+    public void setSpeed(int value){
         setStatValue(StatType.SPEED, value);
     }
 
-    public void setToughnessValue(int value){
+    public void setToughness(int value){
         setStatValue(StatType.TOUGHNESS, value);
     }
 
-
-
     public void setMaxHealth(int maxHealth) {
-
+        mMaxHealth = maxHealth;
     }
 
     public int getCurrentHealth() {
@@ -240,8 +236,8 @@ public class StatsComponent extends EntityComponent {
     }
 
     public void setMaxHealth() {
-        if(getToughnessValue() > 0 && mLevel > 0){
-         mMaxHealth = (int)((getToughnessValue() * 5.0) +  (mLevel * 3.0));
+        if(getToughness() > 0 && mLevel > 0){
+         mMaxHealth = (int)((getToughness() * 5.0) +  (mLevel * 3.0));
         }
     }
 
@@ -250,62 +246,29 @@ public class StatsComponent extends EntityComponent {
     }
 
     public void setMaxPower() {
-        mMaxPower = (int)((mMuscles * 2.5)+(mBrains * 2.5)) * mLevel;
+        mMaxPower = (int)((getMuscles() * 2.5)+(getBrains() * 2.5)) * mLevel;
     }
 
-    public int getMuscles() {
-        return mMuscles;
-    }
 
-    public void setMuscles(int muscles) {
-        mMuscles = muscles;
-    }
-
-    public int getBrains() {
-        return mBrains;
-    }
-
-    public void setBrains(int brains) {
-        mBrains = brains;
-    }
-
-    public int getSpeed() {
-        return mSpeed;
-    }
-
-    public void setSpeed(int speed) {
-        mSpeed = speed;
-    }
-
-    public int getToughness() {
-        return mToughness;
-    }
-
-    public void setToughness(int toughness) {
-        mToughness = toughness;
-    }
 
 
     public int getLevel(){return mLevel;}
 
     public int getMusclesModifier() {
-        return mMusclesModifier;
+
+        return getStatModifier(StatType.MUSCLES);
     }
 
     public int getBrainsModifier() {
-        return mBrainsModifier;
+        return getStatModifier(StatType.BRAINS);
     }
 
     public int getSpeedModifier() {
-        return mSpeedModifier;
+        return getStatModifier(StatType.SPEED);
     }
 
     public int getToughnessModifier() {
-        return mToughnessModifier;
-    }
-
-    public int getTotalStatPoints() {
-        return mTotalStatPoints;
+        return getStatModifier(StatType.TOUGHNESS);
     }
 
 
@@ -317,126 +280,13 @@ public class StatsComponent extends EntityComponent {
         return mDamageReduction;
     }
 
-    private void setMinimunInitialStatPoints(){
-        mMinimumInitialStatPoints = TOTAL_NUMBER_OF_STAT_TYPES * 2;
-    }
-
-
-    private void setInitialStatPoints(){
-        int statPoints = BASE_STAT_POINTS + (mLevel -1);
-        if(statPoints >= mMinimumInitialStatPoints){
-            mInitialStatPoints = statPoints;
-        }else mInitialStatPoints = mMinimumInitialStatPoints;
-    }
-
-    private int getAverageStatPointsPerStat(){
-        return (mInitialStatPoints/TOTAL_NUMBER_OF_STAT_TYPES);
-    }
-
-    private void setStatPointVariance(){
-        mStatPointVariance = (int)(getAverageStatPointsPerStat() * VARIANCE_MULTIPLIER);
-    }
-
-    private void setStatPointDistributionRange(){
-        setMaximumInitialStatPointsPerStat();
-        setMinimumInitialStatPointPerStat();
-    }
-
-    private void setMaximumInitialStatPointsPerStat(){
-        int average = getAverageStatPointsPerStat();
-        mMaximumInitialStatPointsPerStat = average + mStatPointVariance;
-    }
-
-    private void setMinimumInitialStatPointPerStat(){
-        int average = getAverageStatPointsPerStat();
-        mMinimumInitialStatPointPerStat = average - mStatPointVariance;
-        if(mMinimumInitialStatPointPerStat < 1){
-            mMinimumInitialStatPointPerStat = 1;
-        }
-    }
-
-
-    private void distributeStatPoints(){
-        mTotalStatPoints = 0;
-        while(mTotalStatPoints != mInitialStatPoints){
-            rollInitialStats();
-            calculateTotalStatPoints();
-        }
-    }
-
-    private void rollInitialStats(){
-        for(Stat stat: mStats.values()){
-            int value = DiceRoller.rollRandomInt(mMinimumInitialStatPointPerStat, mMaximumInitialStatPointsPerStat);
-            setStatValue(stat.getStatType(), value);
-        }
-    }
-
-    public void calculateTotalStatPoints(){
-        int total = 0;
-        for(Stat stat: mStats.values()){
-            total = total + stat.getValue();
-        }
-        mTotalStatPoints = total;
-    }
-
-
-    private void distributeStatPoints(int initialStatPoints){
-
-
-        mMuscles = DiceRoller.rollRandomInt(minPerStat, maxPerStat);
-        mBrains = DiceRoller.rollRandomInt(minPerStat, maxPerStat);
-        mSpeed = DiceRoller.rollRandomInt(minPerStat, maxPerStat);
-        mToughness = DiceRoller.rollRandomInt(minPerStat, maxPerStat);
-
-        setTotalStatPoints();
-
-
-        //sets totalStatPoints equal to Initial Stat Points
-        while(mTotalStatPoints > initialStatPoints || mTotalStatPoints < initialStatPoints){
-            if(mTotalStatPoints > initialStatPoints){
-                int difference = mTotalStatPoints - initialStatPoints;
-                int count = 0;
-                while(count < difference){
-                    decrementRandomStat();
-                    count ++;
-                    setTotalStatPoints();
-                }
-            }else {
-                int difference = initialStatPoints - mTotalStatPoints;
-                int count = 0;
-                while (count < difference){
-                    incrementRandomStat();
-                    count ++;
-                    setTotalStatPoints();
-                }
-            }
-
-        }
-
-
-    }
-
-
-
-    public StatTypes getRandomStat(){
-
-        int roll = DiceRoller.rollRandomInt(0, TOTAL_NUMBER_OF_STATS -1);
-        return StatTypes.values()[roll];
-    }
-
-    public void calculateModifiers(){
-        mMusclesModifier = (int)((mMuscles - 5)*.5);
-        mBrainsModifier = (int)((mBrains - 5)*.5);
-        mSpeedModifier = (int)((mSpeed - 5)*.5);
-        mToughnessModifier = (int)((mToughness - 5)*.5);
-    }
 
     public void calculateDefense(){
-        mDefense = (10 + mSpeedModifier);
+        mDefense = (10 + getSpeedModifier());
     }
 
     public void calculateDamageReduction(){
-        mDamageReduction = (int) (mToughnessModifier * .5);
+        mDamageReduction = (int) (getToughnessModifier() * .5);
     }
 
     public void decrementHealth(int damage){
@@ -463,10 +313,10 @@ public class StatsComponent extends EntityComponent {
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("Level: " + mLevel + "\n");
-        stringBuilder.append("Muscles: " + mMuscles + "\n");
-        stringBuilder.append("Brains: " + mBrains + "\n");
-        stringBuilder.append("Speed: " + mSpeed + "\n");
-        stringBuilder.append("Toughness: " + mToughness + "\n");
+        stringBuilder.append("Muscles: " + getMuscles() + "\n");
+        stringBuilder.append("Brains: " + getBrains() + "\n");
+        stringBuilder.append("Speed: " + getSpeed() + "\n");
+        stringBuilder.append("Toughness: " + getToughness() + "\n");
         stringBuilder.append("MaxH: " + mMaxHealth + " MaxP: " + mMaxPower + "\n");
         stringBuilder.append("Health: " + mCurrentHealth + " Power: " + mCurrentPower + "\n");
         return stringBuilder.toString();

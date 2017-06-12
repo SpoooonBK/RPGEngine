@@ -1,10 +1,8 @@
 package net.estebanrodriguez.libs.entity_system.factories;
 
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.entities.EntityManager;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
-import net.estebanrodriguez.libs.entity_system.systems.combat.CombatEngine;
-import net.estebanrodriguez.libs.entity_system.systems.inventory.EquipSystem;
+import net.estebanrodriguez.libs.entity_system.systems.inventory.Equipper;
 
 import java.util.List;
 
@@ -47,7 +45,7 @@ public class Mob {
 
     public void equipMob(GameEntity gear){
         for(GameEntity character: mGameEntities){
-            EquipSystem.equip(character, gear);
+            Equipper.equip(character, gear);
         }
     }
 

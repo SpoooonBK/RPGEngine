@@ -12,22 +12,15 @@ import net.estebanrodriguez.libs.entity_system.components.characters.GearCompone
 import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.components.gear.ArmorComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.AttackSkill;
 import net.estebanrodriguez.libs.entity_system.systems.combat.CombatEngine;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
-import net.estebanrodriguez.libs.entity_system.factories.Mob;
-import net.estebanrodriguez.libs.entity_system.factories.MobFactory;
 import net.estebanrodriguez.libs.entity_system.systems.combat.Combatant;
-import net.estebanrodriguez.libs.entity_system.systems.combat.Fight;
 import net.estebanrodriguez.libs.entity_system.systems.combat.Team;
-import net.estebanrodriguez.libs.entity_system.systems.inventory.EquipSystem;
-import net.estebanrodriguez.libs.utilities.Dice;
-
-import java.util.ArrayList;
-import java.util.List;
+import net.estebanrodriguez.libs.entity_system.systems.inventory.Equipper;
+import net.estebanrodriguez.libs.utilities.Die;
 
 import timber.log.Timber;
 
@@ -41,11 +34,11 @@ public class MainActivity extends AppCompatActivity {
 
 
         GameEntity weapon1 = GameEntity.getBuilder()
-                .add(new WeaponComponent("Boo Power", BodyPart.MOUTH, Dice.D4, 1, 1 ))
+                .add(new WeaponComponent("Boo Power", BodyPart.MOUTH, Die.StandardDie.D4, 1, WeaponComponent.WeaponSize.NORMAL, ))
                 .build();
 
         GameEntity weapon2 = GameEntity.getBuilder()
-                .add(new WeaponComponent("Squiggle Power", BodyPart.TAIL, Dice.D2, 2, 1))
+                .add(new WeaponComponent("Squiggle Power", BodyPart.TAIL, Die.StandardDie.D2, 2, WeaponComponent.WeaponSize.NORMAL, ))
                 .build();
 
         final GameEntity johnny =GameEntity.getBuilder()
@@ -55,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 .add(new GearComponent())
                 .add(new AttackSkill())
                 .build();
-        EquipSystem.equip(johnny, weapon1);
+        Equipper.equip(johnny, weapon1);
 
         final GameEntity squiggle = GameEntity.getBuilder()
                 .add(new CharacterComponent("Squiggle"))
@@ -64,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
                 .add(new GearComponent())
                 .add(new AttackSkill())
                 .build();
-        EquipSystem.equip(squiggle, weapon2);
+        Equipper.equip(squiggle, weapon2);
 
         Team johnnyBoo = Team.getBuilder()
                 .add(new Combatant(johnny))

@@ -11,8 +11,8 @@ public class DiceRoller {
     private static Random sRandom = new Random();
 
 
-    public static int rollDie(Dice die){
-        return rollRandomInt(die.getMin(), die.getMax());
+    public static int rollDie(Die die){
+        return rollRandomInt(die.getMinimum(), die.getMaximum());
     }
 
 

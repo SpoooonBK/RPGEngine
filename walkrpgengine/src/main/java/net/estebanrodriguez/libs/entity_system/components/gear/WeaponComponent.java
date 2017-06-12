@@ -3,7 +3,7 @@ package net.estebanrodriguez.libs.entity_system.components.gear;
 import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
 import net.estebanrodriguez.libs.entity_system.components.gear.enums.BodyPart;
 import net.estebanrodriguez.libs.entity_system.systems.combat.DamageType;
-import net.estebanrodriguez.libs.utilities.Dice;
+import net.estebanrodriguez.libs.utilities.Die;
 
 /**
  * Created by spoooon on 5/30/17.
@@ -12,56 +12,41 @@ import net.estebanrodriguez.libs.utilities.Dice;
 public class WeaponComponent extends EntityComponent {
 
     public static final String COMPONENT_NAME = WeaponComponent.class.getSimpleName();
-    private String mName;
-    private BodyPart mBodyPart;
-    private Dice mBaseDie;
-    private int mDieMultiplier;
-    private int mAttackModifier;
-    private int mDamageModifier;
-    private int mDefenseModifier;
-    private DamageType mDamageType;
-    private int mWeaponSize;
+    private final String mName;
+    private final BodyPart mBodyPart;
+    private final Die.StandardDie mBaseDie;
+    private final int mDieMultiplier;
+    private int mAttackModifier; //added to any Attack Roll
+    private int mDamageModifier; //added to any Damage Roll
+    private int mDefenseModifier; //added to any Defense Rolls
+    private final DamageType mDamageType;
+    private final WeaponSize mWeaponSize;
 
 
-    public WeaponComponent(String name, BodyPart bodyPart, Dice baseDie, int dieMultiplier, int weaponSize) {
+    public WeaponComponent(String name, BodyPart bodyPart, Die.StandardDie baseDie, int dieMultiplier, WeaponSize weaponSize, DamageType damageType) {
         super(COMPONENT_NAME);
         mName = name;
         mBodyPart = bodyPart;
         mBaseDie = baseDie;
         mDieMultiplier = dieMultiplier;
         mWeaponSize = weaponSize;
+        mDamageType = damageType;
     }
 
     public String getName() {
         return mName;
     }
 
-    public void setName(String name) {
-        mName = name;
-    }
-
     public BodyPart getBodyPart() {
         return mBodyPart;
     }
 
-    public void setBodyPart(BodyPart bodyPart) {
-        mBodyPart = bodyPart;
-    }
-
-    public Dice getBaseDie() {
+    public Die.StandardDie getBaseDie() {
         return mBaseDie;
-    }
-
-    public void setBaseDie(Dice baseDie) {
-        mBaseDie = baseDie;
     }
 
     public int getDieMultiplier() {
         return mDieMultiplier;
-    }
-
-    public void setDieMultiplier(int dieMultiplier) {
-        mDieMultiplier = dieMultiplier;
     }
 
     public int getAttackModifier() {
@@ -92,15 +77,32 @@ public class WeaponComponent extends EntityComponent {
         return mDamageType;
     }
 
-    public void setDamageType(DamageType damageType) {
-        mDamageType = damageType;
-    }
-
     public int getWeaponSize() {
-        return mWeaponSize;
+        return mWeaponSize.getSize();
     }
 
-    public void setWeaponSize(int weaponSize) {
-        mWeaponSize = weaponSize;
+
+
+
+    /**
+     * Created by spoooon on 6/12/17.
+     */
+
+    public static enum WeaponSize {
+
+        NORMAL(1),
+        LARGE(2),
+        EXTRA_LARGE(3),
+        MASSIVE(4);
+
+        private final int mSize;
+
+        WeaponSize(int size) {
+            mSize = size;
+        }
+
+        public int getSize() {
+            return mSize;
+        }
     }
 }

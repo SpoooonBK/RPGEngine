@@ -20,38 +20,47 @@ public class RollTracker {
         return mRolls;
     }
 
+    public List<Integer> getValues() {
+
+        List<Integer> values = new ArrayList<>();
+        for (Roll roll : mRolls) {
+            values.add(roll.getValue());
+        }
+        return values;
+    }
+
     public void addRoll(Roll roll) {
         mRolls.add(roll);
     }
 
-    public void sortByHighestToLowest(){
+    public void sortByHighestToLowest() {
 
         Collections.sort(mRolls, new Comparator<Roll>() {
             @Override
             public int compare(Roll roll, Roll t1) {
-                int leftRoll = roll.getRoll();
-                int rightRoll = t1.getRoll();
+                int leftRoll = roll.getValue();
+                int rightRoll = t1.getValue();
 
-                if(leftRoll == rightRoll){
+                if (leftRoll == rightRoll) {
                     return 0;
-                } else if(leftRoll > rightRoll){
+                } else if (leftRoll > rightRoll) {
                     return 1;
                 } else return -1;
             }
         });
     }
 
-    public void sortByLowest(){
+    public void sortByLowest() {
 
         Collections.sort(mRolls, new Comparator<Roll>() {
             @Override
             public int compare(Roll roll, Roll t1) {
-                int leftRoll = roll.getRoll();
-                int rightRoll = t1.getRoll();
+                int leftRoll = roll.getValue();
+                int rightRoll = t1.getValue();
 
-                if(leftRoll == rightRoll){
+                if (leftRoll == rightRoll) {
                     return 0;
-                } else if(leftRoll < rightRoll){
+                } else if (leftRoll < rightRoll) {
                     return 1;
                 } else return -1;
             }
@@ -59,6 +68,13 @@ public class RollTracker {
 
     }
 
+    public int getSumOfRolls() {
+        int sumOfRolls = 0;
+        for (Roll roll : mRolls) {
+            sumOfRolls = sumOfRolls + roll.getValue();
+        }
+        return sumOfRolls;
+    }
 
 
 }

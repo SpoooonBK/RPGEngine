@@ -30,20 +30,29 @@ public class Stat {
         if(mValue > 0){
             mValue = value;
         } else mValue = MINIMUM_VALUE;
+        notifyListeners();
     }
 
     public void incrementValue(){
         mValue++;
+        notifyListeners();
     }
 
     public void decrementValue(){
         if(mValue - 1 >  0){
             mValue--;
         }
+        notifyListeners();
     }
+
+    public int getModifier() {
+        return (int)((mValue - 5)*.5);
+    }
+
 
     public void increaseValueby(int increase){
         mValue = mValue + increase;
+        notifyListeners();
     }
 
     public void decreaseValueBy(int decrease){
@@ -51,5 +60,13 @@ public class Stat {
         if(mValue < MINIMUM_VALUE){
             mValue = MINIMUM_VALUE;
         }
+        notifyListeners();
+    }
+
+    private void notifyListeners(){
+        for(OnStatChangeListener listener: mStatChangeListeners){
+            listener.onStatChange();
+        }
+
     }
 }

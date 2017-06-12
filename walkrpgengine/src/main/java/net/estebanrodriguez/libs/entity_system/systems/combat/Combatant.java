@@ -4,10 +4,7 @@ import net.estebanrodriguez.libs.entity_system.components.characters.GearCompone
 import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.entities.EntityManager;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
-import net.estebanrodriguez.libs.utilities.Dice;
-import net.estebanrodriguez.libs.utilities.DiceRoller;
 
 /**
  * Created by spoooon on 5/30/17.
@@ -31,7 +28,7 @@ public final class Combatant {
                 mName = ((CharacterComponent) gameEntity.get(CharacterComponent.COMPONENT_NAME)).getName();
                 mStatsComponent = (StatsComponent) gameEntity.get(StatsComponent.COMPONENT_NAME);
                 mGearComponent = (GearComponent) gameEntity.get(GearComponent.COMPONENT_NAME);
-            } else throw new IllegalArgumentException("GameEntity cannot executeAutoCombat");
+            } else throw new IllegalArgumentException("GameEntity cannot fight");
     }
 
 

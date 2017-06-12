@@ -7,6 +7,7 @@ import net.estebanrodriguez.libs.entity_system.components.characters.common.Stat
 import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
+import net.estebanrodriguez.libs.utilities.Die;
 import net.estebanrodriguez.libs.utilities.Roll;
 
 import java.util.ArrayList;
@@ -161,9 +162,9 @@ public class CombatEngine {
         StatsComponent attackerStats = attacker.getStatsComponent();
         StatsComponent defenderStats = defender.getStatsComponent();
 
-        Roll attackRoll = new Roll();
+        Roll attackRoll = new Roll(new Die(Die.StandardDie.D20));
         attackRoll.addModifier(attackerStats.getMusclesModifier());
-        return (attackRoll.getRoll() > defenderStats.getDefense());
+        return (attackRoll.getValue() > defenderStats.getDefense());
     }
 
     private int rollForDamage(Combatant attacker, Combatant defender) {
@@ -173,16 +174,16 @@ public class CombatEngine {
         GearComponent attackerGear = attacker.getGearComponent();
         GearComponent defenderGear = defender.getGearComponent();
 
-        List<WeaponComponent> weaponComponentList = attackerGear.getWeaponComponentList();
+        List<WeaponComponent> weaponComponentList = attackerGear.getEquippedWeaponList();
 
         WeaponComponent weaponComponent =
                 (WeaponComponent) weaponComponentList.get(0);
 
 
-        Roll roll = new Roll(weaponComponent.getEntityID(), weaponComponent.getBaseDie(), weaponComponent.getDieMultiplier());
+        Roll roll = new Roll(weaponComponent.getEntityID(), weaponComponent.getDieMultiplier(), weaponComponent.getBaseDie());
         roll.addModifier(attackerStats.getMusclesModifier());
 
-        int damage = roll.getRoll() - defenderStats.getDamageReduction();
+        int damage = roll.getValue() - defenderStats.getDamageReduction();
 
         defenderStats.decrementHealth(damage);
 

@@ -1,6 +1,6 @@
 package net.estebanrodriguez.libs.entity_system.systems.combat;
 
-import net.estebanrodriguez.libs.utilities.Dice;
+import net.estebanrodriguez.libs.utilities.Die;
 import net.estebanrodriguez.libs.utilities.Roll;
 import net.estebanrodriguez.libs.utilities.RollTracker;
 
@@ -121,7 +121,7 @@ public class Fight {
     }
 
     private Roll rollInitiativeForCombatant(Combatant combatant){
-        Roll roll = new Roll(combatant.getId(), Dice.D20);
+        Roll roll = new Roll(combatant.getId(), Die.StandardDie.D20);
         roll.addModifier(combatant.getStatsComponent().getSpeedModifier());
         return roll;
     }

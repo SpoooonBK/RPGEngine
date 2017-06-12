@@ -11,11 +11,11 @@ import net.estebanrodriguez.libs.entity_system.systems.combat.DamageType;
 public class ArmorComponent extends EntityComponent {
 
     public final static String COMPONENT_NAME = ArmorComponent.class.getSimpleName();
-    String mName;
-    BodyPart mBodyPart;
-    int mArmorClass;
-    DamageType mDamageTypeResistance;
-    int mDamageResistance;
+    private String mName;
+    private BodyPart mBodyPart;
+    private int mArmorClass;
+    private DamageType mDamageTypeResistance;
+    private int mDamageResistance;
 
 
     ArmorComponent(){

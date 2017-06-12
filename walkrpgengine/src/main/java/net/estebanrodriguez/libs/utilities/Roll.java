@@ -7,31 +7,37 @@ package net.estebanrodriguez.libs.utilities;
 public class Roll {
 
     private String mID;
-    private int mRoll;
+    private int mValue;
+    private Die mDie;
 
-    //Default rolls D20 with no id
-    public Roll(){
-        mRoll = DiceRoller.rollDie(Dice.D20);
+
+    public Roll(Die die){
+        mDie = die;
+        mID = "untracked";
+        mValue = DiceRoller.rollDie(die);
     }
 
-    //Rolls one die
-    public Roll(String id, Dice die){
-        this(id, die, 1);
+
+    public Roll(String id, Die die){
+        mID = id;
+        mDie = die;
+        mValue = DiceRoller.rollDie(die);
     }
 
     //Rolls multiple of one die
-    public Roll(String id, Dice die, int numberOfRolls){
+    public Roll(String id, int numberOfRolls, Die die){
         mID = id;
-        mRoll = 0;
+        mValue = 0;
+        mDie = die;
         for(int i = 0; i < numberOfRolls; i++){
-            mRoll = mRoll + DiceRoller.rollDie(die);
+            mValue = mValue + DiceRoller.rollDie(die);
         }
     }
 
 
 
     public void addModifier(int modifer){
-        mRoll = mRoll + modifer;
+        mValue = mValue + modifer;
     }
 
     public String getID() {
@@ -41,7 +47,7 @@ public class Roll {
         else return "0";
     }
 
-    public int getRoll() {
-        return mRoll;
+    public int getValue() {
+        return mValue;
     }
 }
