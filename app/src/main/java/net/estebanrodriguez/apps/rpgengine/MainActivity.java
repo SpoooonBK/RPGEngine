@@ -8,16 +8,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
+import net.estebanrodriguez.libs.entity_system.components.characters.BaseStats;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.equipment.Equipment;
+import net.estebanrodriguez.libs.entity_system.components.characters.Stat;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponSlotComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.AttackSkill;
-import net.estebanrodriguez.libs.entity_system.systems.combat.CombatEngine;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.entity_system.systems.combat.Combatant;
 import net.estebanrodriguez.libs.entity_system.systems.combat.DamageType;
@@ -44,9 +44,15 @@ public class MainActivity extends AppCompatActivity {
                 .add(new WeaponComponent("Squiggle Power", BodyPart.Part.TAIL, Die.StandardDie.D2, 2, DamageType.MAGIC ))
                 .build();
 
+        BaseStats baseStats = BaseStats.getBuilder()
+                .add(new Stat(Stat.StatType.MUSCLES, 5))
+                .add(new Stat(Stat.StatType.BRAINS, 3))
+                .add(new Stat(Stat.StatType.TOUGHNESS, 3))
+                .build();
+
         final GameEntity johnny =GameEntity.getBuilder()
                 .add(new CharacterComponent("Johnny Boo!"))
-                .add(new StatsComponent(3))
+                .add(new StatsComponent(3, baseStats))
                 .add(new CombatComponent())
                 .add(new BodyComponent())
                 .add(new WeaponSlotComponent())

@@ -18,6 +18,11 @@ public class Stat {
         mStatType = statType;
     }
 
+    public Stat(StatType statType, int value){
+        mStatType = statType;
+        setValue(value);
+    }
+
     public StatType getStatType() {
         return mStatType;
     }

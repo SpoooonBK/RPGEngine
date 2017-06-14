@@ -1,6 +1,7 @@
 package net.estebanrodriguez.libs.entity_system.components.characters;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,9 +11,13 @@ import java.util.Map;
 
 public class BaseStats {
 
-    private Map<Stat.StatType, Stat> mStats;
+    private Map<Stat.StatType, Stat> mStats = new HashMap<>();
 
     private BaseStats() {
+    }
+
+    public static Builder getBuilder(){
+        return new Builder();
     }
 
     public Stat getStat(Stat.StatType statType){
@@ -35,13 +40,8 @@ public class BaseStats {
         private BaseStats instance = new BaseStats();
 
         public Builder add(Stat stat){
-            if(hasValue(stat)){
                 Stat.StatType statType = stat.getStatType();
                 instance.mStats.put(statType, stat);
-            } else {
-                stat.setValue(1);
-                add(stat);
-            }
             return this;
         }
 
@@ -58,17 +58,10 @@ public class BaseStats {
             for(Stat.StatType statType: Stat.StatType.values()){
                 if(!instance.mStats.containsKey(statType)){
                     Stat stat = new Stat(statType);
-                    stat.setValue(1);
                     add(new Stat(statType));
                 }
             }
         }
-
-
-        private boolean hasValue(Stat stat){
-            return stat.getValue() > 0;
-        }
-
 
 
         private boolean hasAllStatTypes(){

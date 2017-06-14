@@ -18,11 +18,11 @@ public class GameEntity {
     private String mId = UUID.randomUUID().toString();
     private Map<String, Component> mComponents = new HashMap<>();
 
+    private GameEntity() {}
+
     public static Builder getBuilder(){
         return new Builder();
     }
-
-    private GameEntity() {}
 
     public String getId() {
         return mId;
@@ -62,7 +62,6 @@ public class GameEntity {
         private Builder(){}
 
         private GameEntity instance = new GameEntity();
-
 
         public Builder add(Component component){
             component.bindEntityID(instance.getId());

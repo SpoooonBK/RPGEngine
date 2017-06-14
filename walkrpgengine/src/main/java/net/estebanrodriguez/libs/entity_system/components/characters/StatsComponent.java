@@ -34,16 +34,11 @@ public class StatsComponent extends Component {
         this(1);
     }
 
-    public StatsComponent(BaseStats baseStats, int level){
+    public StatsComponent(int level, BaseStats baseStats){
         super(COMPONENT_NAME);
         mLevel = level;
         setStatsFromBaseStats(baseStats);
-        setMaxHealth();
-        setMaxPower();
-        mCurrentHealth = mMaxHealth;
-        mCurrentPower = mMaxPower;
-        calculateDefense();
-        calculateDamageReduction();
+        initializeSecondaryStats();
     }
 
 
@@ -51,8 +46,10 @@ public class StatsComponent extends Component {
         super(COMPONENT_NAME);
         mLevel = level;
         setStats();
-        StatPointDistributor distributor = new StatPointDistributor(this);
-        distributor.distributeStatPoints();
+        initializeSecondaryStats();
+    }
+
+    private void initializeSecondaryStats(){
         setMaxHealth();
         setMaxPower();
         mCurrentHealth = mMaxHealth;
@@ -67,6 +64,8 @@ public class StatsComponent extends Component {
         mStats.put(Stat.StatType.BRAINS, new Stat(Stat.StatType.BRAINS));
         mStats.put(Stat.StatType.SPEED, new Stat(Stat.StatType.SPEED));
         mStats.put(Stat.StatType.TOUGHNESS, new Stat(Stat.StatType.TOUGHNESS));
+        StatPointDistributor distributor = new StatPointDistributor(this);
+        distributor.distributeStatPoints();
     }
 
     private void setStatsFromBaseStats(BaseStats baseStats){
