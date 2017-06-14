@@ -80,16 +80,16 @@ public class Fight {
         return alive;
     }
 
-    public Fight execute(){
-
-        int round = 1;
-        while(!hasWinner()){
-            CombatRound combatRound = CombatEngine.getInstance().executeCombatRound(this, round);
-            mCombatRounds.add(combatRound);
-            round++;
-        }
-            return this;
-    }
+//    public Fight execute(){
+//
+//        int round = 1;
+//        while(!hasWinner()){
+//            CombatRound combatRound = CombatEngine.getInstance().executeCombatRound(this, round);
+//            mCombatRounds.add(combatRound);
+//            round++;
+//        }
+//            return this;
+//    }
 
 
     private void sortCombatantsByInitiative() {
@@ -103,11 +103,13 @@ public class Fight {
     }
 
     private Combatant getCombatantByRoll(Roll roll){
+        Combatant resultantCombatant = null;
         for(Combatant combatant: mCombatantAttackQueue){
             if(combatant.getId().equals(roll.getID())){
-                return combatant;
+                resultantCombatant = combatant;
             }
         }
+        return resultantCombatant;
     }
 
     private RollTracker trackInitiativeRolls(){
@@ -121,7 +123,7 @@ public class Fight {
     }
 
     private Roll rollInitiativeForCombatant(Combatant combatant){
-        Roll roll = new Roll(combatant.getId(), Die.StandardDie.D20);
+        Roll roll = new Roll(combatant.getId(), new Die(Die.StandardDie.D20));
         roll.addModifier(combatant.getStatsComponent().getSpeedModifier());
         return roll;
     }

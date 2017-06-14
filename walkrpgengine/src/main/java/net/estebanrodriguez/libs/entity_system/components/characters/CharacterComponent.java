@@ -1,13 +1,13 @@
-package net.estebanrodriguez.libs.entity_system.components.characters.common;
+package net.estebanrodriguez.libs.entity_system.components.characters;
 
 
-import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
+import net.estebanrodriguez.libs.entity_system.components.Component;
 
 /**
  * Created by spoooon on 4/30/17.
  */
 
-public class CharacterComponent extends EntityComponent {
+public class CharacterComponent extends Component {
 
     public static final String COMPONENT_NAME = CharacterComponent.class.getSimpleName();
     private String mName;

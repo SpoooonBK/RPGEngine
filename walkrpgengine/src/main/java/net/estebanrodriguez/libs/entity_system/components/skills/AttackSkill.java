@@ -1,6 +1,6 @@
 package net.estebanrodriguez.libs.entity_system.components.skills;
 
-import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
+import net.estebanrodriguez.libs.entity_system.components.Component;
 import net.estebanrodriguez.libs.entity_system.systems.combat.CombatEngine;
 import net.estebanrodriguez.libs.entity_system.systems.combat.Combatant;
 
@@ -9,18 +9,16 @@ import net.estebanrodriguez.libs.entity_system.systems.combat.Combatant;
  * Created by spoooon on 6/7/17.
  */
 
-public class AttackSkill extends EntityComponent implements CombatSkill {
+public class AttackSkill extends Component implements CombatSkill {
 
     public static final String COMPONENT_NAME = "attack_component";
-    private String mSkillName;
+    private static final String SKILL_NAME = "Attack";
 
     public AttackSkill() {
         super(COMPONENT_NAME);
-        mSkillName= "Attack";
     }
     public AttackSkill(String skillName){
         super(COMPONENT_NAME);
-        mSkillName = skillName;
     }
 
     @Override

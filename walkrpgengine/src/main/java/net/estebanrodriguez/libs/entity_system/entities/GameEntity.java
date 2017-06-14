@@ -2,13 +2,9 @@ package net.estebanrodriguez.libs.entity_system.entities;
 
 
 
-import net.estebanrodriguez.libs.entity_system.components.EntityComponent;
-import net.estebanrodriguez.libs.entity_system.systems.combat.Team;
+import net.estebanrodriguez.libs.entity_system.components.Component;
 
-import java.awt.Component;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -19,7 +15,7 @@ import java.util.UUID;
 public class GameEntity {
 
     private String mId = UUID.randomUUID().toString();
-    private Map<String, EntityComponent> mComponents = new HashMap<>();
+    private Map<String, Component> mComponents = new HashMap<>();
 
     public static Builder getBuilder(){
         return new Builder();
@@ -31,21 +27,25 @@ public class GameEntity {
         return mId;
     }
 
-    protected Map<String, EntityComponent> getComponents() {
+    protected Map<String, Component> getComponents() {
         return mComponents;
     }
 
-    public void setComponents(Map<String, EntityComponent> components) {
+    public void setComponents(Map<String, Component> components) {
         mComponents = components;
     }
 
+    public static GameEntity getEmptyGameEntity(){
+        return new GameEntity();
+    }
 
-    //Shortcut Methods to avoid cumbersome has component and get component code
+
+    //Shortcut Methods to avoid cumbersome has componentPrior to Java 5, java memory model had a lot of issues and above approaches used to fail in certain scenarios where too many threads try to get the instance of the Singleton class simultaneously. So Bill Pugh came up with a different approach to create the Singleton class using and get component code
     public boolean has(String componentName){
         return this.getComponents().containsKey(componentName);
     }
 
-    public EntityComponent get(String componentName){
+    public Component get(String componentName){
             if(has(componentName)){
             return this.getComponents().get(componentName);
         }else throw new IllegalArgumentException("GameEntity does not have " + componentName);
@@ -65,7 +65,7 @@ public class GameEntity {
 
         public GameEntity sEntity;
 
-        public Builder add(EntityComponent component){
+        public Builder add(Component component){
             component.bindEntityID(instance.getId());
             instance.mComponents.put(component.getComponentName(), component);
             return this;
@@ -85,7 +85,7 @@ public class GameEntity {
         stringBuilder.append("Components:" + "\n");
 
         if(mComponents != null){
-            for(Map.Entry<String, EntityComponent> component: mComponents.entrySet()){
+            for(Map.Entry<String, Component> component: mComponents.entrySet()){
                 stringBuilder.append(component.toString());
                 stringBuilder.append("\n");
             }

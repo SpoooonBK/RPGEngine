@@ -1,11 +1,11 @@
-package net.estebanrodriguez.libs.entity_system.components.characters.common;
+package net.estebanrodriguez.libs.entity_system.components.characters;
 
-import net.estebanrodriguez.libs.utilities.DiceRoller;
+import net.estebanrodriguez.libs.entity_system.components.characters.Stat;
+import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
 import net.estebanrodriguez.libs.utilities.Die;
 import net.estebanrodriguez.libs.utilities.Roll;
 import net.estebanrodriguez.libs.utilities.RollTracker;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -41,8 +41,8 @@ public final class StatPointDistributor {
         RollTracker rollTracker = rollUntilTotalStatPointsSpent();
         List<Integer> rolls = rollTracker.getValues();
         int count = 0;
-        Set<StatType> statTypes = mStatsComponent.getStatTypes();
-        for(StatType statType: statTypes){
+        Set<Stat.StatType> statTypes = mStatsComponent.getStatTypes();
+        for(Stat.StatType statType: statTypes){
             mStatsComponent.setStatValue(statType, rolls.get(count));
             count ++;
         }

@@ -1,4 +1,4 @@
-package net.estebanrodriguez.libs.entity_system.components.characters.common;
+package net.estebanrodriguez.libs.entity_system.components.characters;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -68,5 +68,13 @@ public class Stat {
             listener.onStatChange();
         }
 
+    }
+
+    /**
+     * Created by spoooon on 6/9/17.
+     */
+
+    public static enum StatType {
+        MUSCLES, BRAINS, SPEED, TOUGHNESS
     }
 }

@@ -1,6 +1,5 @@
 package net.estebanrodriguez.libs.entity_system.systems.combat;
 
-import net.estebanrodriguez.libs.entity_system.components.characters.common.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.entity_system.factories.Mob;
 

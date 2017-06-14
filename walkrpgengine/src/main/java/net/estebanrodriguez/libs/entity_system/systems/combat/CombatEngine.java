@@ -1,10 +1,9 @@
 package net.estebanrodriguez.libs.entity_system.systems.combat;
 
-import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.CombatComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.GearComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.components.gear.WeaponComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
+import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
 import net.estebanrodriguez.libs.utilities.Die;
@@ -50,80 +49,84 @@ public class CombatEngine {
 //    }
 
 
-
-
-    public CombatRound executeCombatRound(Fight fight, int round){
-        StringBuilder stringBuilder = new StringBuilder();
-        List<Combatant> combatants = fight.getCombatantAttackQueue();
-        int totalTurns = combatants.size();
-        CombatRound combatRound = new CombatRound(round, totalTurns);
-        for(int i = 0; i < totalTurns; i++){
-            executeCombatTurn(fight.getCombatantByAttackQueueIndex(i));
-        }
-
-    }
-
-    private void executeCombatTurn(Combatant attacker) {
-        attacker.getTarget();
+    public void initiateCombat(Fight fight){
 
     }
 
 
-    public Fight executeAutoCombat(Fight fight) {
+//
+//    public CombatRound executeCombatRound(Fight fight, int round){
+//        StringBuilder stringBuilder = new StringBuilder();
+//        List<Combatant> combatants = fight.getCombatantAttackQueue();
+//        int totalTurns = combatants.size();
+//        CombatRound combatRound = new CombatRound(round, totalTurns);
+//        for(int i = 0; i < totalTurns; i++){
+//            executeCombatTurn(fight.getCombatantByAttackQueueIndex(i));
+//        }
+//
+//    }
+//
+//    private void executeCombatTurn(Combatant attacker) {
+//        attacker.getTarget();
+//
+//    }
 
-
-
-        if (fight.getTeams().size() >= 2) {
-            rollForInitiative(fight);
-        }
-
-        while (!hasWinner(fight)) {
-            fight.addCombatRound(executeAutoCombatRound());
-        }
-            fight.setWinner(getWinner());
-
-        return fight;
-    }
-
+//
+//    public Fight executeAutoCombat(Fight fight) {
+//
+//
+//
+//        if (fight.getTeams().size() >= 2) {
+//            rollForInitiative(fight);
+//        }
+//
+//        while (!hasWinner(fight)) {
+//            fight.addCombatRound(executeAutoCombatRound());
+//        }
+//            fight.setWinner(getWinner());
+//
+//        return fight;
+//    }
+//
 
     //For Testing purposes
-    public CombatRound executeAutoCombatRound() {
-
-        StringBuilder stringBuilder = new StringBuilder();
-
-        for (Combatant attacker : mCombatants) {
-            if (attacker.isAlive()) {
-                String result = attack(attacker, chooseDefender(attacker));
-                stringBuilder.append(result + "\n");
-            }
-        }
-        return new CombatRound(stringBuilder.toString());
-    }
-
-
-    public String attack(Combatant attacker, Combatant defender) {
-
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("Attacker: " + attacker.getName() +"\n");
-        stringBuilder.append("Health: " + attacker.getStatsComponent().getCurrentHealth() + "\n");
-        stringBuilder.append("Defender: " + defender.getName() +"\n");
-        stringBuilder.append("Health: " + defender.getStatsComponent().getCurrentHealth() + "\n" );
+//    public CombatRound executeAutoCombatRound() {
+//
+//        StringBuilder stringBuilder = new StringBuilder();
+//
+//        for (Combatant attacker : mCombatants) {
+//            if (attacker.isAlive()) {
+//                String result = attack(attacker, chooseDefender(attacker));
+//                stringBuilder.append(result + "\n");
+//            }
+//        }
+//        return new CombatRound(stringBuilder.toString());
+//    }
 
 
-        if (rollForHit(attacker, defender)) {
-            int damage = rollForDamage(attacker, defender);
-            defender.getStatsComponent().decrementHealth(damage);
-            stringBuilder.append(attacker.getName()
-                    + " hits " + defender.getName()
-                    + " for " + damage + " damage!\n");
-
-            if (!defender.isAlive()) {
-                stringBuilder.append(attacker.getName() + " defeats " + defender.getName() + "!\n");
-            }
-        } else stringBuilder.append(attacker.getName() + " misses " + defender.getName() + ".\n");
-
-        return stringBuilder.toString();
-    }
+//    public String attack(Combatant attacker, Combatant defender) {
+//
+//        StringBuilder stringBuilder = new StringBuilder();
+//        stringBuilder.append("Attacker: " + attacker.getName() +"\n");
+//        stringBuilder.append("Health: " + attacker.getStatsComponent().getCurrentHealth() + "\n");
+//        stringBuilder.append("Defender: " + defender.getName() +"\n");
+//        stringBuilder.append("Health: " + defender.getStatsComponent().getCurrentHealth() + "\n" );
+//
+//
+//        if (rollForHit(attacker, defender)) {
+//            int damage = rollForDamage(attacker, defender);
+//            defender.getStatsComponent().decrementHealth(damage);
+//            stringBuilder.append(attacker.getName()
+//                    + " hits " + defender.getName()
+//                    + " for " + damage + " damage!\n");
+//
+//            if (!defender.isAlive()) {
+//                stringBuilder.append(attacker.getName() + " defeats " + defender.getName() + "!\n");
+//            }
+//        } else stringBuilder.append(attacker.getName() + " misses " + defender.getName() + ".\n");
+//
+//        return stringBuilder.toString();
+//    }
 
 
     private Team chooseRandomDefendingTeam(Combatant attacker){
@@ -167,36 +170,37 @@ public class CombatEngine {
         return (attackRoll.getValue() > defenderStats.getDefense());
     }
 
-    private int rollForDamage(Combatant attacker, Combatant defender) {
-        StatsComponent attackerStats = attacker.getStatsComponent();
-        StatsComponent defenderStats = defender.getStatsComponent();
-
-        GearComponent attackerGear = attacker.getGearComponent();
-        GearComponent defenderGear = defender.getGearComponent();
-
-        List<WeaponComponent> weaponComponentList = attackerGear.getEquippedWeaponList();
-
-        WeaponComponent weaponComponent =
-                (WeaponComponent) weaponComponentList.get(0);
-
-
-        Roll roll = new Roll(weaponComponent.getEntityID(), weaponComponent.getDieMultiplier(), weaponComponent.getBaseDie());
-        roll.addModifier(attackerStats.getMusclesModifier());
-
-        int damage = roll.getValue() - defenderStats.getDamageReduction();
-
-        defenderStats.decrementHealth(damage);
-
-        return damage;
-    }
-
+//    private int rollForDamage(Combatant attacker, Combatant defender, GameEntity weapon) {
+//        StatsComponent attackerStats = attacker.getStatsComponent();
+//        StatsComponent defenderStats = defender.getStatsComponent();
+//
+//        BodyComponent attackerBody = attacker.getBodyComponent();
+//        BodyComponent defenderBody = defender.getBodyComponent();
+//
+//        List<GameEntity> weaponsList = attackerBody.getAllEquipment().getWeaponsList();
+//        for(GameEntity weapon: weaponsList){
+//
+//        }
+//
+//
+//
+//        Roll roll = new Roll(weaponComponent.getEntityID(), weaponComponent.getDieMultiplier(), weaponComponent.getBaseDie());
+//        roll.addModifier(attackerStats.getMusclesModifier());
+//
+//        int damage = roll.getValue() - defenderStats.getDamageReduction();
+//
+//        defenderStats.decrementHealth(damage);
+//
+//        return damage;
+//    }
+//
 
 
 
 
     public static boolean canFight(GameEntity gameEntity) {
         return gameEntity.has(CombatComponent.COMPONENT_NAME)
-                && gameEntity.has(GearComponent.COMPONENT_NAME)
+                && gameEntity.has(BodyComponent.COMPONENT_NAME)
                 && gameEntity.has(StatsComponent.COMPONENT_NAME)
                 && gameEntity.has(CharacterComponent.COMPONENT_NAME);
     }

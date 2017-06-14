@@ -4,12 +4,12 @@ package net.estebanrodriguez.libs.entity_system.components;
  * Created by spoooon on 5/1/17.
  */
 
-public abstract class EntityComponent {
+public abstract class Component {
 
     private String mComponentName;
     private String mEntityID;
 
-    protected EntityComponent(String componentName) {
+    protected Component(String componentName) {
         this.mComponentName = componentName;
     }
 

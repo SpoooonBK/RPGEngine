@@ -1,8 +1,8 @@
 package net.estebanrodriguez.libs.entity_system.factories;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.CombatComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.common.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.GearComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
+import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
 
@@ -33,7 +33,7 @@ public class MobFactory implements GameEntityFactory {
                 .add(new CharacterComponent(name))
                 .add(new CombatComponent())
                 .add(new StatsComponent(level))
-                .add(new GearComponent())
+                .add(new BodyComponent())
                 .build();
     }
 
