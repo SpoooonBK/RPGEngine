@@ -12,6 +12,7 @@ import net.estebanrodriguez.libs.entity_system.components.characters.BodyCompone
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.Equipment;
+import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponSlotComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponComponent;
@@ -48,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 .add(new StatsComponent(3))
                 .add(new CombatComponent())
                 .add(new BodyComponent())
-                .add(new AttackSkill())
+                .add(new WeaponSlotComponent())
                 .build();
 
         EquipSystem equipSystem = new EquipSystem();
@@ -59,7 +60,7 @@ public class MainActivity extends AppCompatActivity {
                 .add(new StatsComponent(3))
                 .add(new CombatComponent())
                 .add(new BodyComponent())
-                .add(new AttackSkill())
+                .add(new WeaponSlotComponent())
                 .build();
         equipSystem.equip(squiggle, weapon2);
 
@@ -73,9 +74,7 @@ public class MainActivity extends AppCompatActivity {
                 .setName("Squiggles")
                 .build();
 
-        CombatEngine.getInstance().addTeam(johnnyBoo);
-        CombatEngine.getInstance().addTeam(squiggleTeam);
-        CombatEngine.getInstance().rollForInitiative();
+
 
 
         LinearLayout character1Layout = (LinearLayout) findViewById(R.id.character_1_holder);

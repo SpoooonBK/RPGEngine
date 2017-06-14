@@ -33,6 +33,15 @@ public class RollTracker {
         mRolls.add(roll);
     }
 
+    public int getRollValueById(String id){
+        for(Roll roll: mRolls){
+            if(id.equals(roll.getID())){
+                return roll.getValue();
+            }
+        }
+        throw new IllegalArgumentException("Roll not found for id: " + id);
+    }
+
     public void sortByHighestToLowest() {
 
         Collections.sort(mRolls, new Comparator<Roll>() {

@@ -3,6 +3,7 @@ package net.estebanrodriguez.libs.entity_system.entities;
 
 
 import net.estebanrodriguez.libs.entity_system.components.Component;
+import net.estebanrodriguez.libs.entity_system.systems.World;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -63,8 +64,6 @@ public class GameEntity {
         private GameEntity instance = new GameEntity();
 
 
-        public GameEntity sEntity;
-
         public Builder add(Component component){
             component.bindEntityID(instance.getId());
             instance.mComponents.put(component.getComponentName(), component);
@@ -72,6 +71,7 @@ public class GameEntity {
         }
 
         public GameEntity build(){
+            World.getInstance().addGameEntity(instance);
             return instance;
         }
     }

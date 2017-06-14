@@ -27,7 +27,7 @@ public class Stat {
     }
 
     public void setValue(int value) {
-        if(mValue > 0){
+        if(value > 0){
             mValue = value;
         } else mValue = MINIMUM_VALUE;
         notifyListeners();

@@ -26,7 +26,7 @@ public class AttackSkill extends Component implements CombatSkill {
 
         Combatant attacker = CombatEngine.getInstance().getCombatantByID(super.getEntityID());
         if(attacker.getTarget() != attacker){
-            CombatEngine.getInstance().attack(attacker, attacker.getTarget());
+//            CombatEngine.getInstance().attack(attacker, attacker.getTarget());
         }
     }
 }

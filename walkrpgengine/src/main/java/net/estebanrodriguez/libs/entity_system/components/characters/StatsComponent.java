@@ -34,6 +34,7 @@ public class StatsComponent extends Component {
     }
 
 
+
     public StatsComponent(int level){
         super(COMPONENT_NAME);
         mLevel = level;

@@ -33,21 +33,20 @@ public final class StatPointDistributor {
         setInitialStatPoints();
         setStatPointVariance();
         setMaximumInitialStatPointsPerStat();
-        setMaximumInitialStatPointsPerStat();
+        setMinimumInitialStatPointPerStat();
     }
 
 
     public void distributeStatPoints(){
         RollTracker rollTracker = rollUntilTotalStatPointsSpent();
         List<Integer> rolls = rollTracker.getValues();
-        int count = 0;
         Set<Stat.StatType> statTypes = mStatsComponent.getStatTypes();
         for(Stat.StatType statType: statTypes){
-            mStatsComponent.setStatValue(statType, rolls.get(count));
-            count ++;
+            int value = rollTracker.getRollValueById(statType.toString());
+            mStatsComponent.setStatValue(statType, value);
         }
     }
-
+//TODO FIX THIS
     private RollTracker rollUntilTotalStatPointsSpent(){
         int sumOfRolls = 0;
         RollTracker rollTracker = null;
@@ -61,8 +60,14 @@ public final class StatPointDistributor {
     private RollTracker rollForEachStatType(){
         RollTracker rollTracker = new RollTracker();
         Die die = buildDie();
+        Set<Stat.StatType> statTypes = mStatsComponent.getStatTypes();
+        for(Stat.StatType statType : statTypes){
+            rollTracker.addRoll(new Roll(statType.toString(), die));
+        }
+
+
         for(int i = 0; i < mTotalNumberOfStatTypes; i++){
-            rollTracker.addRoll(new Roll(die));
+
         }
         return rollTracker;
     }

@@ -15,7 +15,7 @@ public class Die {
     }
 
     public Die(int min, int max){
-        if(min > 1){
+        if(min < 1){
             min = 1;
         }
         mMinimum = min;
