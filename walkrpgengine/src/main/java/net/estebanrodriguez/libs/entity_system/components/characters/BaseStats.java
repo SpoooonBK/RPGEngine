@@ -57,7 +57,6 @@ public class BaseStats {
         private void initializeMissingStatTypes() {
             for(Stat.StatType statType: Stat.StatType.values()){
                 if(!instance.mStats.containsKey(statType)){
-                    Stat stat = new Stat(statType);
                     add(new Stat(statType));
                 }
             }
