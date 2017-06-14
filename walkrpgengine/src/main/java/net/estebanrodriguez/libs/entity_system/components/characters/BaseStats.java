@@ -1,5 +1,7 @@
 package net.estebanrodriguez.libs.entity_system.components.characters;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -8,7 +10,7 @@ import java.util.Map;
 
 public class BaseStats {
 
-    Map<Stat.StatType, Stat> mStats;
+    private Map<Stat.StatType, Stat> mStats;
 
     private BaseStats() {
     }
@@ -17,6 +19,11 @@ public class BaseStats {
         if(hasStatType(statType)){
             return mStats.get(statType);
         }else throw new IllegalArgumentException(statType.toString() + " not found");
+    }
+
+    public List<Stat> getStatList(){
+        List<Stat> statList = new ArrayList<>(mStats.values());
+        return statList;
     }
 
     private boolean hasStatType(Stat.StatType statType) {

@@ -3,6 +3,7 @@ package net.estebanrodriguez.libs.entity_system.components.characters;
 import net.estebanrodriguez.libs.entity_system.components.Component;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,6 +34,17 @@ public class StatsComponent extends Component {
         this(1);
     }
 
+    public StatsComponent(BaseStats baseStats, int level){
+        super(COMPONENT_NAME);
+        mLevel = level;
+        setStatsFromBaseStats(baseStats);
+        setMaxHealth();
+        setMaxPower();
+        mCurrentHealth = mMaxHealth;
+        mCurrentPower = mMaxPower;
+        calculateDefense();
+        calculateDamageReduction();
+    }
 
 
     public StatsComponent(int level){
@@ -55,6 +67,15 @@ public class StatsComponent extends Component {
         mStats.put(Stat.StatType.BRAINS, new Stat(Stat.StatType.BRAINS));
         mStats.put(Stat.StatType.SPEED, new Stat(Stat.StatType.SPEED));
         mStats.put(Stat.StatType.TOUGHNESS, new Stat(Stat.StatType.TOUGHNESS));
+    }
+
+    private void setStatsFromBaseStats(BaseStats baseStats){
+        List<Stat> statList = baseStats.getStatList();
+        for(Stat stat: statList){
+            Stat.StatType statType = stat.getStatType();
+            mStats.put(statType, stat);
+        }
+
     }
 
     public int getTotalNumberOfStatTypes(){
