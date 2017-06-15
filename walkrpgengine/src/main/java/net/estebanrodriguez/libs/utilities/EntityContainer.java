@@ -1,6 +1,6 @@
 package net.estebanrodriguez.libs.utilities;
 
-import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 
 /**
  * Created by spoooon on 6/13/17.
@@ -8,7 +8,7 @@ import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 
 public interface EntityContainer {
 
-    void add(GameEntity gameEntity);
-    GameEntity getById(String id);
+    void add(Entity gameEntity);
+    Entity getById(String id);
 
 }

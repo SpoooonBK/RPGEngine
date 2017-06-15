@@ -1,6 +1,6 @@
 package net.estebanrodriguez.libs.entity_system.systems.inventory;
 
-import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 
 /**
  * Created by spoooon on 6/2/17.
@@ -8,5 +8,5 @@ import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 
 public interface OnEquipChangeListener {
 
-    void onEquipChange(GameEntity character, GameEntity gear);
+    void onEquipChange(Entity character, Entity gear);
 }

@@ -1,8 +1,10 @@
 package net.estebanrodriguez.libs.entity_system.factories;
-import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
+
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
 
@@ -13,21 +15,17 @@ import java.util.List;
  * Created by spoooon on 5/31/17.
  */
 
-public class MobFactory implements GameEntityFactory {
+public class MobFactory implements EntityFactory {
 
-    public static int MOB_MAX = 4;
-    public static int MOB_LEVEL_MIN_DIVISOR = 3;
-
-
-    public GameEntity createGameEntity() {
-        return createGameEntity(1);
+    public Entity createEntity() {
+        return createEntity(1);
     }
 
-    public GameEntity createGameEntity(int level){
-        return createGameEntity(level, "Rando");
+    public Entity createEntity(int level){
+        return createEntity(level, "Rando");
     }
 
-    public GameEntity createGameEntity(int level, String name){
+    public Entity createEntity(int level, String name){
 
       return GameEntity.getBuilder()
                 .add(new CharacterComponent(name))
@@ -39,18 +37,18 @@ public class MobFactory implements GameEntityFactory {
 
 
     public Mob createMob(String name, int mobSize, int maxLevel, LevelPreference levelPreference){
-        List<GameEntity> mobList = new ArrayList<>();
+        List<Entity> mobList = new ArrayList<>();
 
         switch (levelPreference){
             case RANDOM_LEVEL:{
                 for(int i = 0; i < mobSize; i++){
-                    mobList.add(createGameEntity(DiceRoller.rollRandomInt(1, maxLevel), name));
+                    mobList.add(createEntity(DiceRoller.rollRandomInt(1, maxLevel), name));
                 }
                 break;
             }
             default:{
                 for(int i = 0; i < mobSize; i++){
-                    mobList.add(createGameEntity(maxLevel));
+                    mobList.add(createEntity(maxLevel));
                 }
                 break;
             }
@@ -90,11 +88,11 @@ public class MobFactory implements GameEntityFactory {
 
         }
 
-        List<GameEntity> mobList = new ArrayList<>();
+        List<Entity> mobList = new ArrayList<>();
         int count = 0;
         for(Integer level: mobLevels){
             count++;
-            mobList.add(createGameEntity(level, name + count));
+            mobList.add(createEntity(level, name + count));
         }
 
         return new Mob(mobList);

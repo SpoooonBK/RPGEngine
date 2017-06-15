@@ -2,7 +2,7 @@ package net.estebanrodriguez.libs.entity_system.components.characters;
 
 import net.estebanrodriguez.libs.entity_system.components.Component;
 import net.estebanrodriguez.libs.entity_system.components.equipment.Equipment;
-import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.entity_system.systems.World;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
 
@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static net.estebanrodriguez.libs.entity_system.components.characters.BodyPart.*;
+import static net.estebanrodriguez.libs.entity_system.components.characters.BodyPart.Part;
 
 /**
  * Created by spoooon on 5/30/17.
@@ -42,7 +42,7 @@ public class BodyComponent extends Component {
         for(BodyPart bodyPart: mBodyParts.values()){
             if(bodyPart.hasWeapon()){
                 String id = bodyPart.getWeaponId();
-                GameEntity gameEntity = World.getInstance().getGameEntity(id);
+                Entity gameEntity = World.getInstance().getEntity(id);
                 weapons.add(gameEntity);
             }
         }
@@ -55,7 +55,7 @@ public class BodyComponent extends Component {
         for(BodyPart bodyPart: mBodyParts.values()){
             if(bodyPart.hasArmor()){
                 String id = bodyPart.getArmorId();
-                GameEntity gameEntity = World.getInstance().getGameEntity(id);
+                Entity gameEntity = World.getInstance().getEntity(id);
                 armor.add(gameEntity);
             }
         }
@@ -106,7 +106,7 @@ public class BodyComponent extends Component {
         return values;
     }
 
-    public void unequip(GameEntity equipment){
+    public void unequip(Entity equipment){
         String equipmentID = equipment.getId();
         for(BodyPart bodypart: mBodyParts.values()){
             bodypart.unequip(equipmentID);

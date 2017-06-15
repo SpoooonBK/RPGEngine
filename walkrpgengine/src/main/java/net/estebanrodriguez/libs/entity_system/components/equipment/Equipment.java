@@ -1,5 +1,6 @@
 package net.estebanrodriguez.libs.entity_system.components.equipment;
 
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.EntityContainer;
 
@@ -15,19 +16,19 @@ import java.util.Map;
 public class Equipment implements EntityContainer {
 
 
-    private Map<String, GameEntity> mWeapons = new HashMap<>();
-    private Map<String, GameEntity> mArmor = new HashMap<>();
+    private Map<String, Entity> mWeapons = new HashMap<>();
+    private Map<String, Entity> mArmor = new HashMap<>();
 
     public Equipment() {
 
     }
 
-    public Equipment(Map<String, GameEntity> weapons, Map<String, GameEntity> armor) {
+    public Equipment(Map<String, Entity> weapons, Map<String, Entity> armor) {
         mWeapons = weapons;
         mArmor = armor;
     }
 
-    public void add(GameEntity equipment){
+    public void add(Entity equipment){
         if(equipment.has(WeaponComponent.COMPONENT_NAME)){
             addWeapon(equipment);
         } else if (equipment.has(ArmorComponent.COMPONENT_NAME)){
@@ -36,43 +37,43 @@ public class Equipment implements EntityContainer {
     }
 
     public void add(Equipment equipment){
-        List<GameEntity> weapons = equipment.getWeaponsList();
+        List<Entity> weapons = equipment.getWeaponsList();
         add(weapons);
-        List<GameEntity> armor = equipment.getArmorList();
+        List<Entity> armor = equipment.getArmorList();
         add(armor);
     }
 
-    private void add(List<GameEntity> equipment){
-        for(GameEntity gameEntity: equipment){
+    private void add(List<Entity> equipment){
+        for(Entity gameEntity: equipment){
             add(gameEntity);
         }
     }
 
-    private void addArmor(GameEntity armor){
+    private void addArmor(Entity armor){
         String id = armor.getId();
         mArmor.put(id, armor);
     }
 
-    private void addWeapon(GameEntity weapon){
+    private void addWeapon(Entity weapon){
             String id = weapon.getId();
             mWeapons.put(id, weapon);
 
     }
 
-    public GameEntity getById(String id){
-        GameEntity gameEntity;
+    public Entity getById(String id){
+        Entity gameEntity;
         if(mWeapons.containsKey(id)){
             return mWeapons.get(id);
         }else if(mArmor.containsKey(id)){
             return mArmor.get(id);
-        }else return GameEntity.getEmptyGameEntity();
+        }else return GameEntity.getEmptyEntity();
     }
 
-    public List<GameEntity> getWeaponsList(){
+    public List<Entity> getWeaponsList(){
         return new ArrayList<>(mWeapons.values());
     }
 
-    public List<GameEntity> getArmorList(){
+    public List<Entity> getArmorList(){
         return new ArrayList<>(mArmor.values());
     }
 

@@ -1,6 +1,6 @@
 package net.estebanrodriguez.libs.entity_system.systems.combat;
 
-import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.entity_system.factories.Mob;
 
 import java.util.ArrayList;
@@ -76,8 +76,8 @@ public class Team {
         }
 
         public Builder add(Mob mob){
-            for(GameEntity gameEntity: mob.getGameEntities()){
-                    instance.addCombant(new Combatant(gameEntity));
+            for(Entity entity: mob.getEntities()){
+                    instance.addCombant(new Combatant(entity));
             }
             return this;
         }

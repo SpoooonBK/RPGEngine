@@ -1,6 +1,6 @@
 package net.estebanrodriguez.libs.entity_system.components.characters;
 
-import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 
 /**
  * Created by spoooon on 6/13/17.
@@ -41,11 +41,11 @@ public class BodyPart {
         mWeaponId = null;
     }
 
-    public void equipWeapon(GameEntity weapon){
+    public void equipWeapon(Entity weapon){
         mWeaponId = weapon.getId();
     }
 
-    public void equipArmor(GameEntity armor){
+    public void equipArmor(Entity armor){
         mArmorId = armor.getId();
     }
 

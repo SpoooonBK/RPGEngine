@@ -1,10 +1,10 @@
 package net.estebanrodriguez.libs.entity_system.systems.combat;
 
-import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
 import net.estebanrodriguez.libs.utilities.Die;
 import net.estebanrodriguez.libs.utilities.Roll;
@@ -43,7 +43,7 @@ public class CombatEngine {
 //    }
 //
 //    public void addMob(Mob mob, Team team) {
-//        for (GameEntity gameEntity : mob.getGameEntities()) {
+//        for (GameEntity gameEntity : mob.getEntities()) {
 //            addCombatant(gameEntity, team);
 //        }
 //    }
@@ -198,7 +198,7 @@ public class CombatEngine {
 
 
 
-    public static boolean canFight(GameEntity gameEntity) {
+    public static boolean canFight(Entity gameEntity) {
         return gameEntity.has(CombatComponent.COMPONENT_NAME)
                 && gameEntity.has(BodyComponent.COMPONENT_NAME)
                 && gameEntity.has(StatsComponent.COMPONENT_NAME)

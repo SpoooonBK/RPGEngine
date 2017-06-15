@@ -45,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                 .build();
 
         BaseStats baseStats = BaseStats.getBuilder()
-                .add(new Stat(Stat.StatType.MUSCLES, 5))
+                .add(new Stat(Stat.StatType.MUSCLES, -10))
                 .add(new Stat(Stat.StatType.BRAINS, 3))
                 .add(new Stat(Stat.StatType.TOUGHNESS, 3))
                 .build();

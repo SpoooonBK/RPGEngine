@@ -13,7 +13,7 @@ import java.util.UUID;
  * Created by spoooon on 5/1/17.
  */
 
-public class GameEntity {
+public class GameEntity implements Entity{
 
     private String mId = UUID.randomUUID().toString();
     private Map<String, Component> mComponents = new HashMap<>();
@@ -28,27 +28,18 @@ public class GameEntity {
         return mId;
     }
 
-    protected Map<String, Component> getComponents() {
-        return mComponents;
-    }
-
-    public void setComponents(Map<String, Component> components) {
-        mComponents = components;
-    }
-
-    public static GameEntity getEmptyGameEntity(){
+    public static Entity getEmptyEntity(){
         return new GameEntity();
     }
 
 
-    //Shortcut Methods to avoid cumbersome has componentPrior to Java 5, java memory model had a lot of issues and above approaches used to fail in certain scenarios where too many threads try to get the instance of the Singleton class simultaneously. So Bill Pugh came up with a different approach to create the Singleton class using and get component code
     public boolean has(String componentName){
-        return this.getComponents().containsKey(componentName);
+        return mComponents.containsKey(componentName);
     }
 
     public Component get(String componentName){
             if(has(componentName)){
-            return this.getComponents().get(componentName);
+            return mComponents.get(componentName);
         }else throw new IllegalArgumentException("GameEntity does not have " + componentName);
     }
 
@@ -70,7 +61,7 @@ public class GameEntity {
         }
 
         public GameEntity build(){
-            World.getInstance().addGameEntity(instance);
+            World.getInstance().addEntity(instance);
             return instance;
         }
     }

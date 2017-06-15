@@ -1,7 +1,5 @@
 package net.estebanrodriguez.libs.entity_system.components.characters;
 
-import net.estebanrodriguez.libs.entity_system.components.characters.Stat;
-import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
 import net.estebanrodriguez.libs.utilities.Die;
 import net.estebanrodriguez.libs.utilities.Roll;
 import net.estebanrodriguez.libs.utilities.RollTracker;

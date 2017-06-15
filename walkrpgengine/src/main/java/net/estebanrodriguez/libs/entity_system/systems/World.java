@@ -1,5 +1,6 @@
 package net.estebanrodriguez.libs.entity_system.systems;
 
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 
 import java.util.HashMap;
@@ -13,7 +14,7 @@ public class World {
 
 
 
-    private Map<String, GameEntity> mGameEntityMap = new HashMap<>();
+    private Map<String, Entity> mEntityMap = new HashMap<>();
 
     private World(){}
 
@@ -25,19 +26,19 @@ public class World {
         return SingletonHelper.INSTANCE;
     }
 
-    public void addGameEntity(GameEntity gameEntity){
+    public void addEntity(Entity entity){
 
     }
 
-    public GameEntity getGameEntity(String id){
-        if(mGameEntityMap.containsKey(id)){
-            return mGameEntityMap.get(id);
-        }else return GameEntity.getEmptyGameEntity();
+    public Entity getEntity(String id){
+        if(mEntityMap.containsKey(id)){
+            return mEntityMap.get(id);
+        }else return GameEntity.getEmptyEntity();
     }
 
     public void removeGameEntity(String id){
-        if(mGameEntityMap.containsKey(id)){
-            mGameEntityMap.remove(id);
+        if(mEntityMap.containsKey(id)){
+            mEntityMap.remove(id);
         }
     }
 

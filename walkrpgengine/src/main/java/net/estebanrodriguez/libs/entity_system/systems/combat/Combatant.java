@@ -2,10 +2,10 @@ package net.estebanrodriguez.libs.entity_system.systems.combat;
 
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.Equipment;
-import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 
 /**
  * Created by spoooon on 5/30/17.
@@ -15,21 +15,21 @@ public class Combatant {
 
     private String mId;
     private String mName;
-    private GameEntity mGameEntity;
+    private Entity mEntity;
     private StatsComponent mStatsComponent;
     private BodyComponent mBodyComponent;
     private Combatant mTarget;
 
 
-    public Combatant(GameEntity gameEntity) {
+    public Combatant(Entity entity) {
 
-            if(canFight(gameEntity)){
-                mGameEntity = gameEntity;
-                mId = gameEntity.getId();
-                mName = ((CharacterComponent) gameEntity.get(CharacterComponent.COMPONENT_NAME)).getName();
-                mStatsComponent = (StatsComponent) gameEntity.get(StatsComponent.COMPONENT_NAME);
-                mBodyComponent = (BodyComponent) gameEntity.get(BodyComponent.COMPONENT_NAME);
-            } else throw new IllegalArgumentException("GameEntity cannot fight");
+            if(canFight(entity)){
+                mEntity = entity;
+                mId = entity.getId();
+                mName = ((CharacterComponent) entity.get(CharacterComponent.COMPONENT_NAME)).getName();
+                mStatsComponent = (StatsComponent) entity.get(StatsComponent.COMPONENT_NAME);
+                mBodyComponent = (BodyComponent) entity.get(BodyComponent.COMPONENT_NAME);
+            } else throw new IllegalArgumentException("Entity cannot fight");
     }
 
 
@@ -45,8 +45,8 @@ public class Combatant {
         mTarget = target;
     }
 
-    public GameEntity getGameEntity() {
-        return mGameEntity;
+    public Entity getEntity() {
+        return mEntity;
     }
 
     public StatsComponent getStatsComponent() {
@@ -67,11 +67,11 @@ public class Combatant {
     }
 
 
-    public static boolean canFight(GameEntity gameEntity) {
-        return gameEntity.has(CombatComponent.COMPONENT_NAME)
-                && gameEntity.has(BodyComponent.COMPONENT_NAME)
-                && gameEntity.has(StatsComponent.COMPONENT_NAME)
-                && gameEntity.has(CharacterComponent.COMPONENT_NAME);
+    public static boolean canFight(Entity entity) {
+        return entity.has(CombatComponent.COMPONENT_NAME)
+                && entity.has(BodyComponent.COMPONENT_NAME)
+                && entity.has(StatsComponent.COMPONENT_NAME)
+                && entity.has(CharacterComponent.COMPONENT_NAME);
     }
 
     public boolean isAlive(){

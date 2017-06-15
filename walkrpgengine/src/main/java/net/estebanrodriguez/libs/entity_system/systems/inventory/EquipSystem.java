@@ -1,11 +1,11 @@
 package net.estebanrodriguez.libs.entity_system.systems.inventory;
 
+import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.equipment.ArmorComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponSlotComponent;
-import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
+import net.estebanrodriguez.libs.entity_system.entities.Entity;
 
 /**
  * Created by spoooon on 6/2/17.
@@ -14,7 +14,7 @@ import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 public class EquipSystem {
 
 
-    private GameEntity mCharacter;
+    private Entity mCharacter;
     private BodyComponent mBodyComponent;
     private int mTotalWeaponSlots;
 
@@ -22,7 +22,7 @@ public class EquipSystem {
     }
 
 
-    public void equip(GameEntity character, GameEntity equipment){
+    public void equip(Entity character, Entity equipment){
         if(character.has(BodyComponent.COMPONENT_NAME)){
             mCharacter = character;
             setBodyComponent();
@@ -40,7 +40,7 @@ public class EquipSystem {
         mBodyComponent = (BodyComponent) mCharacter.get(BodyComponent.COMPONENT_NAME);
     }
 
-    public void unequip(GameEntity character, GameEntity equipment){
+    public void unequip(Entity character, Entity equipment){
         if(character.has(BodyComponent.COMPONENT_NAME)) {
             setBodyComponent();
             mBodyComponent.unequip(equipment);
@@ -48,7 +48,7 @@ public class EquipSystem {
     }
 
 
-    private void equipWeapon(GameEntity weapon){
+    private void equipWeapon(Entity weapon){
 
         int totalWeaponSlots = getTotalWeaponSlots();
         int totalWeaponsEquipped = mBodyComponent.getTotalWeaponsEquipped();
@@ -73,7 +73,7 @@ public class EquipSystem {
     }
 
 
-    private void swapWeapon(GameEntity weapon){
+    private void swapWeapon(Entity weapon){
         unequipRandomWeapon();
         equipWeapon(weapon);
     }
@@ -85,7 +85,7 @@ public class EquipSystem {
     }
 
 
-    private void equipArmor(GameEntity armor){
+    private void equipArmor(Entity armor){
         ArmorComponent armorComponent = (ArmorComponent) armor.get(ArmorComponent.COMPONENT_NAME);
         BodyPart.Part part = armorComponent.getPart();
         BodyPart bodyPart = mBodyComponent.getBodyPart(part);
