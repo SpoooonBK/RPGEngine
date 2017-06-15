@@ -19,14 +19,7 @@ public class Equipment implements EntityContainer {
     private Map<String, Entity> mWeapons = new HashMap<>();
     private Map<String, Entity> mArmor = new HashMap<>();
 
-    public Equipment() {
-
-    }
-
-    public Equipment(Map<String, Entity> weapons, Map<String, Entity> armor) {
-        mWeapons = weapons;
-        mArmor = armor;
-    }
+    public Equipment() {}
 
     public void add(Entity equipment){
         if(equipment.has(WeaponComponent.COMPONENT_NAME)){
@@ -69,6 +62,14 @@ public class Equipment implements EntityContainer {
         }else return GameEntity.getEmptyEntity();
     }
 
+    @Override
+    public List<Entity> getEntities() {
+        List<Entity> entities = new ArrayList<>();
+        entities.addAll(mWeapons.values());
+        entities.addAll(mArmor.values());
+        return entities;
+    }
+
     public List<Entity> getWeaponsList(){
         return new ArrayList<>(mWeapons.values());
     }
@@ -76,5 +77,7 @@ public class Equipment implements EntityContainer {
     public List<Entity> getArmorList(){
         return new ArrayList<>(mArmor.values());
     }
+
+
 
 }

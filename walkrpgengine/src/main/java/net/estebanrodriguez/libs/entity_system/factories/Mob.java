@@ -1,11 +1,17 @@
 package net.estebanrodriguez.libs.entity_system.factories;
 
+import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.entity_system.systems.inventory.EquipSystem;
 import net.estebanrodriguez.libs.utilities.EntityContainer;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by spoooon on 6/1/17.
@@ -15,57 +21,46 @@ import java.util.List;
 
 public class Mob implements EntityContainer{
 
-    private List<Entity> mEntities;
-    private int mTotalLevels;
+    private Map<String, Entity> mEntities = new HashMap<>();
 
 
-    public Mob(List<Entity> entities) {
-        mEntities = entities;
-    }
-
+    @Override
     public List<Entity> getEntities() {
-        return mEntities;
+        List<Entity> entities = new ArrayList<>(mEntities.values());
+        return entities;
     }
 
-
-    public int getTotalLevels() {
-        return mTotalLevels;
-    }
-
-    private int size(){
+    @Override
+    public int size() {
         return mEntities.size();
     }
 
-    private void calcuateTotalLevels(){
-        mTotalLevels = 0;
-        for(Entity gameEntity: mEntities){
-            mTotalLevels = mTotalLevels
-                    + ((StatsComponent)gameEntity.get(StatsComponent.COMPONENT_NAME)).getLevel();
+    public void add(List<Entity> entities){
+        for(Entity entity: entities){
+            add(entity);
         }
     }
-
-    public void equipMob(Entity gear){
-        for(Entity character: mEntities){
-            EquipSystem equipper = new EquipSystem();
-            equipper.equip(character, gear);
-        }
-    }
-
-    public void equipMob(List<Entity> gearList){
-        for(Entity gear: gearList){
-            equipMob(gear);
-        }
-    }
-
-    //TODO implement
 
     @Override
-    public void add(Entity gameEntity) {
-
+    public void add(Entity entity) {
+        if(canAttack(entity)){
+            String id = entity.getId();
+            mEntities.put(id, entity);
+        }
     }
 
     @Override
     public Entity getById(String id) {
-        return null;
+        if(mEntities.containsKey(id)){
+            return mEntities.get(id);
+        }else throw new IllegalArgumentException(id + " not found.");
+    }
+
+    private boolean canAttack(Entity entity){
+        return (entity.has(CombatComponent.COMPONENT_NAME)
+                && entity.has(CharacterComponent.COMPONENT_NAME)
+                && entity.has(BodyComponent.COMPONENT_NAME)
+                && entity.has(StatsComponent.COMPONENT_NAME)
+        );
     }
 }

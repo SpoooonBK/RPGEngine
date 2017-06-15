@@ -7,6 +7,8 @@ import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
+import net.estebanrodriguez.libs.utilities.Die;
+import net.estebanrodriguez.libs.utilities.EntityContainer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,91 +17,57 @@ import java.util.List;
  * Created by spoooon on 5/31/17.
  */
 
-public class MobFactory implements EntityFactory {
+public class MobFactory implements EntityContainerFactory {
 
-    public Entity createEntity() {
-        return createEntity(1);
+
+    @Override
+    public Mob createEntityContainer(int size) {
+        return createRandomLevelMob("Rando", size, 1);
     }
 
-    public Entity createEntity(int level){
-        return createEntity(level, "Rando");
-    }
+    public Mob createRandomLevelMob(String name, int mobSize, int maxLevel){
 
-    public Entity createEntity(int level, String name){
-
-      return GameEntity.getBuilder()
-                .add(new CharacterComponent(name))
-                .add(new CombatComponent())
-                .add(new StatsComponent(level))
-                .add(new BodyComponent())
-                .build();
-    }
-
-
-    public Mob createMob(String name, int mobSize, int maxLevel, LevelPreference levelPreference){
-        List<Entity> mobList = new ArrayList<>();
-
-        switch (levelPreference){
-            case RANDOM_LEVEL:{
-                for(int i = 0; i < mobSize; i++){
-                    mobList.add(createEntity(DiceRoller.rollRandomInt(1, maxLevel), name));
-                }
-                break;
-            }
-            default:{
-                for(int i = 0; i < mobSize; i++){
-                    mobList.add(createEntity(maxLevel));
-                }
-                break;
-            }
+        Mob mob = new Mob();
+        CharacterFactory characterFactory = new CharacterFactory();
+        for(int i = 0; i < mobSize; i++){
+            int levelRoll = DiceRoller.rollDie(new Die(1, maxLevel));
+            Entity entity = characterFactory.createEntity(name, levelRoll);
+            mob.add(entity);
         }
-        return new Mob(mobList);
+        return mob;
     }
 
-    public Mob createLevelTargetedMob(String name, int targetLevel, int maxMobSize, LevelPreference levelPreference){
+    public Mob createSameLevelMob(String name, int mobSize, int level){
+
+        Mob mob = new Mob();
+        CharacterFactory characterFactory = new CharacterFactory();
+        for(int i = 0; i < mobSize; i++){
+            Entity entity = characterFactory.createEntity(name, level);
+            mob.add(entity);
+        }
+        return mob;
+    }
+
+
+    public Mob createMobWithMaxAmountOfTotalLevels(String name, int maxTotalLevels, int maxMobSize){
+
+        Mob mob = new Mob();
+        CharacterFactory characterFactory = new CharacterFactory();
 
         int totalLevels = 0;
-        List<Integer> mobLevels = new ArrayList<>();
+        int minLevel = 1;
+        int maxLevel = totalLevels;
+        Die die = new Die(minLevel, maxLevel);
 
-        switch (levelPreference){
-
-            case RANDOM_LEVEL:{
-                int minLevel = 1;
-                int maxLevel = targetLevel;
-                while (totalLevels < targetLevel && mobLevels.size() < maxMobSize){
-                    int roll = DiceRoller.rollRandomInt(minLevel, maxLevel);
-                    if(targetLevel >= totalLevels + roll){
-                        mobLevels.add(roll);
-                        totalLevels = totalLevels + roll;
-                    }
-                }
-                break;
+        while (totalLevels < totalLevels && mob.size() < maxMobSize){
+            int level = DiceRoller.rollDie(die);
+            if(totalLevels >= totalLevels + level){
+                Entity entity = characterFactory.createEntity(name, level);
+                mob.add(entity);
+                totalLevels = totalLevels + level;
             }
-
-
-            case SAME_LEVEL:{
-                int mobLevel = (int) targetLevel/maxMobSize;
-                while(totalLevels < targetLevel && mobLevels.size() < maxMobSize){
-                    mobLevels.add(mobLevel);
-                    totalLevels = totalLevels + mobLevel;
-                }
-                break;
-            }
-
         }
-
-        List<Entity> mobList = new ArrayList<>();
-        int count = 0;
-        for(Integer level: mobLevels){
-            count++;
-            mobList.add(createEntity(level, name + count));
-        }
-
-        return new Mob(mobList);
+        return  mob;
     }
 
-
-    public enum LevelPreference{
-        RANDOM_LEVEL, SAME_LEVEL
-    }
 }

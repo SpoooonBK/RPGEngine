@@ -6,6 +6,9 @@ import net.estebanrodriguez.libs.entity_system.components.equipment.ArmorCompone
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponSlotComponent;
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
+import net.estebanrodriguez.libs.utilities.EntityContainer;
+
+import java.util.List;
 
 /**
  * Created by spoooon on 6/2/17.
@@ -22,16 +25,23 @@ public class EquipSystem {
     }
 
 
-    public void equip(Entity character, Entity equipment){
+    public void equip(Entity character, Entity gear){
         if(character.has(BodyComponent.COMPONENT_NAME)){
             mCharacter = character;
             setBodyComponent();
 
-            if(equipment.has(WeaponComponent.COMPONENT_NAME)){
-                equipWeapon(equipment);
-            }else if(equipment.has(ArmorComponent.COMPONENT_NAME)){
-                equipArmor(equipment);
+            if(gear.has(WeaponComponent.COMPONENT_NAME)){
+                equipWeapon(gear);
+            }else if(gear.has(ArmorComponent.COMPONENT_NAME)){
+                equipArmor(gear);
             }
+        }
+    }
+
+    public void equipMob(EntityContainer mob, Entity gear){
+        List<Entity> entities = mob.getEntities();
+        for(Entity entity: entities){
+            equip(entity, gear);
         }
     }
 
@@ -40,12 +50,14 @@ public class EquipSystem {
         mBodyComponent = (BodyComponent) mCharacter.get(BodyComponent.COMPONENT_NAME);
     }
 
-    public void unequip(Entity character, Entity equipment){
+    public void unequip(Entity character, Entity gear){
         if(character.has(BodyComponent.COMPONENT_NAME)) {
             setBodyComponent();
-            mBodyComponent.unequip(equipment);
+            mBodyComponent.unequip(gear);
         }
     }
+
+
 
 
     private void equipWeapon(Entity weapon){

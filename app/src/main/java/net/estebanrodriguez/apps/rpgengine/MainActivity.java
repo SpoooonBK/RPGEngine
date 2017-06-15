@@ -130,13 +130,13 @@ public class MainActivity extends AppCompatActivity {
 //        gearList.add(armor1);
 //
 //        MobFactory mobFactory = new MobFactory();
-//        Mob mob = mobFactory.createLevelTargetedMob("Strong", 5, 1, MobFactory.LevelPreference.RANDOM_LEVEL);
+//        Mob mob = mobFactory.createMobWithMaxAmountOfTotalLevels("Strong", 5, 1, MobFactory.LevelPreference.RANDOM_LEVEL);
 //        mob.equipMob(gearList);
 //
-//        Mob mob2 = mobFactory.createLevelTargetedMob("Weak", 3, 1, MobFactory.LevelPreference.RANDOM_LEVEL);
+//        Mob mob2 = mobFactory.createMobWithMaxAmountOfTotalLevels("Weak", 3, 1, MobFactory.LevelPreference.RANDOM_LEVEL);
 //        mob2.equipMob(gearList);
 //
-//        Mob mob3 = mobFactory.createLevelTargetedMob("Ultra", 8, 1, MobFactory.LevelPreference.RANDOM_LEVEL);
+//        Mob mob3 = mobFactory.createMobWithMaxAmountOfTotalLevels("Ultra", 8, 1, MobFactory.LevelPreference.RANDOM_LEVEL);
 //        mob3.equipMob(gearList);
 //
 //        Team ultra = Team.getBuilder()
