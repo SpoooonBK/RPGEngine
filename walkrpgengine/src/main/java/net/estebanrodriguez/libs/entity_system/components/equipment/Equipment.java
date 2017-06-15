@@ -70,6 +70,11 @@ public class Equipment implements EntityContainer {
         return entities;
     }
 
+    @Override
+    public int size() {
+        return mArmor.size() + mWeapons.size();
+    }
+
     public List<Entity> getWeaponsList(){
         return new ArrayList<>(mWeapons.values());
     }

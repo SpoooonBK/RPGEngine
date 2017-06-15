@@ -3,6 +3,7 @@ package net.estebanrodriguez.libs.entity_system.systems.inventory;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.equipment.ArmorComponent;
+import net.estebanrodriguez.libs.entity_system.components.equipment.OwnerComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponSlotComponent;
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
@@ -19,7 +20,6 @@ public class EquipSystem {
 
     private Entity mCharacter;
     private BodyComponent mBodyComponent;
-    private int mTotalWeaponSlots;
 
     public EquipSystem() {
     }
@@ -70,6 +70,7 @@ public class EquipSystem {
         if(totalWeaponSlots > totalWeaponsEquipped){
             BodyPart bodyPart = mBodyComponent.getBodyPart(part);
             bodyPart.equipWeapon(weapon);
+            setOwnership(weapon);
         } else {
             swapWeapon(weapon);
         }
@@ -102,6 +103,14 @@ public class EquipSystem {
         BodyPart.Part part = armorComponent.getPart();
         BodyPart bodyPart = mBodyComponent.getBodyPart(part);
         bodyPart.equipArmor(armor);
+        setOwnership(armor);
+    }
+
+    private void setOwnership(Entity gear){
+        if(gear.has(OwnerComponent.COMPONENT_NAME)){
+            OwnerComponent ownerComponent = (OwnerComponent) gear.get(OwnerComponent.COMPONENT_NAME);
+            ownerComponent.setOwnerID(mCharacter.getId());
+        }
     }
 
 }
