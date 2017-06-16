@@ -8,14 +8,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-import net.estebanrodriguez.libs.entity_system.components.characters.BaseStats;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.StandardBaseStats;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.Stat;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.AttributeStat;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.StatType;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponSlotComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.AttackSkill;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
@@ -44,15 +45,15 @@ public class MainActivity extends AppCompatActivity {
                 .add(new WeaponComponent("Squiggle Power", BodyPart.Part.TAIL, Die.StandardDie.D2, 2, DamageType.MAGIC ))
                 .build();
 
-        BaseStats baseStats = BaseStats.getBuilder()
-                .add(new Stat(Stat.StatType.MUSCLES, -10))
-                .add(new Stat(Stat.StatType.BRAINS, 3))
-                .add(new Stat(Stat.StatType.TOUGHNESS, 3))
+        StandardBaseStats standardBaseStats = StandardBaseStats.getBuilder()
+                .add(new AttributeStat(StatType.MUSCLES, -10))
+                .add(new AttributeStat(StatType.BRAINS, 3))
+                .add(new AttributeStat(StatType.TOUGHNESS, 3))
                 .build();
 
         final GameEntity johnny =GameEntity.getBuilder()
                 .add(new CharacterComponent("Johnny Boo!"))
-                .add(new StatsComponent(3, baseStats))
+                .add(new StatsComponent(3, standardBaseStats))
                 .add(new CombatComponent())
                 .add(new BodyComponent())
                 .add(new WeaponSlotComponent())

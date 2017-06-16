@@ -1,10 +1,7 @@
-package net.estebanrodriguez.libs.entity_system.components.characters;
+package net.estebanrodriguez.libs.entity_system.components.characters.stats;
 
 import net.estebanrodriguez.libs.entity_system.components.Component;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 
@@ -24,7 +21,7 @@ public class StatsComponent extends Component {
     private int mMaxHealth;
     private int mMaxPower;
 
-    private Map<Stat.StatType, Stat> mStats = new HashMap<>();
+    private BaseStats mBaseStats;
 
 
     private int mDefense;
@@ -37,19 +34,19 @@ public class StatsComponent extends Component {
     public StatsComponent(int level, BaseStats baseStats){
         super(COMPONENT_NAME);
         mLevel = level;
-        setStatsFromBaseStats(baseStats);
-        initializeSecondaryStats();
+        mBaseStats = baseStats;
+        setSecondaryStats();
     }
 
 
     public StatsComponent(int level){
         super(COMPONENT_NAME);
         mLevel = level;
-        setStats();
-        initializeSecondaryStats();
+        setBaseStats();
+        setSecondaryStats();
     }
 
-    private void initializeSecondaryStats(){
+    private void setSecondaryStats(){
         setMaxHealth();
         setMaxPower();
         mCurrentHealth = mMaxHealth;
@@ -58,176 +55,167 @@ public class StatsComponent extends Component {
         calculateDamageReduction();
     }
 
-    private void setStats() {
+    private void setBaseStats() {
 
-        mStats.put(Stat.StatType.MUSCLES, new Stat(Stat.StatType.MUSCLES));
-        mStats.put(Stat.StatType.BRAINS, new Stat(Stat.StatType.BRAINS));
-        mStats.put(Stat.StatType.SPEED, new Stat(Stat.StatType.SPEED));
-        mStats.put(Stat.StatType.TOUGHNESS, new Stat(Stat.StatType.TOUGHNESS));
+        mBaseStats = StandardBaseStats.getBuilder()
+                .build();
+
         StatPointDistributor distributor = new StatPointDistributor(this);
         distributor.distributeStatPoints();
     }
 
-    private void setStatsFromBaseStats(BaseStats baseStats){
-        List<Stat> statList = baseStats.getStatList();
-        for(Stat stat: statList){
-            Stat.StatType statType = stat.getStatType();
-            mStats.put(statType, stat);
-        }
-
-    }
-
     public int getTotalNumberOfStatTypes(){
-        return mStats.size();
+        return mBaseStats.size();
     }
 
-    public Set<Stat.StatType> getStatTypes(){
-        return mStats.keySet();
+    public Set<StatType> getStatTypes(){
+        return mBaseStats.getStatTypesSet();
     }
 
 
 
-    private int getStatValue(Stat.StatType statType) {
+    private int getStatValue(StatType statType) {
         Stat stat = getStat(statType);
         return stat.getValue();
     }
 
-    private int getStatModifier(Stat.StatType statType){
+    private int getStatModifier(StatType statType){
         Stat stat = getStat(statType);
-        return stat.getModifier();
+        int statModifier = (int)((stat.getValue() - 5)*.5);
+        return statModifier;
     }
 
-    private Stat getStat(Stat.StatType statType) {
+    private Stat getStat(StatType statType) {
         if(hasStat(statType)){
-            return mStats.get(statType);
+            return mBaseStats.get(statType);
         }else throw new IllegalArgumentException();
 
     }
 
-    private void incrementStat(Stat.StatType statType){
+    private void incrementStat(StatType statType){
         Stat stat = getStat(statType);
         stat.incrementValue();
     }
 
-    private void decrementStat(Stat.StatType statType){
+    private void decrementStat(StatType statType){
         Stat stat = getStat(statType);
         stat.decrementValue();
     }
 
-    private void increaseStatBy(Stat.StatType statType, int increase){
+    private void increaseStatBy(StatType statType, int increase){
         Stat stat = getStat(statType);
-        stat.increaseValueby(increase);
+        stat.increaseValueBy(increase);
     }
 
-    private void decreaseStatBy(Stat.StatType statType, int decrease){
+    private void decreaseStatBy(StatType statType, int decrease){
         Stat stat = getStat(statType);
         stat.decreaseValueBy(decrease);
     }
 
-    public void setStatValue(Stat.StatType statType, int value){
+    public void setStatValue(StatType statType, int value){
         Stat stat = getStat(statType);
         stat.setValue(value);
     }
 
     public int getMuscles(){
-        return getStatValue(Stat.StatType.MUSCLES);
+        return getStatValue(StatType.MUSCLES);
     }
 
     public int getBrains(){
-        return getStatValue(Stat.StatType.BRAINS);
+        return getStatValue(StatType.BRAINS);
     }
 
     public int getSpeed(){
-        return getStatValue(Stat.StatType.SPEED);
+        return getStatValue(StatType.SPEED);
     }
 
     public int getToughness(){
-        return getStatValue(Stat.StatType.TOUGHNESS);
+        return getStatValue(StatType.TOUGHNESS);
     }
 
 
-    public boolean hasStat(Stat.StatType statType){
-        return mStats.containsKey(statType);
+    public boolean hasStat(StatType statType){
+        return mBaseStats.has(statType);
     }
 
     public void incrementMuscles(){
-        incrementStat(Stat.StatType.MUSCLES);
+        incrementStat(StatType.MUSCLES);
     }
 
     public void incrementBrains(){
-        incrementStat(Stat.StatType.BRAINS);
+        incrementStat(StatType.BRAINS);
     }
 
     public void incrementSpeed(){
-        incrementStat(Stat.StatType.SPEED);
+        incrementStat(StatType.SPEED);
     }
 
     public void incrementToughness(){
-        incrementStat(Stat.StatType.TOUGHNESS);
+        incrementStat(StatType.TOUGHNESS);
     }
 
     public void decrementMuscles(){
-        decrementStat(Stat.StatType.MUSCLES);
+        decrementStat(StatType.MUSCLES);
     }
 
     public void decrementBrains(){
-        decrementStat(Stat.StatType.BRAINS);
+        decrementStat(StatType.BRAINS);
     }
 
     public void decrementSpeed(){
-        decrementStat(Stat.StatType.SPEED);
+        decrementStat(StatType.SPEED);
     }
 
     public void decrementToughness(){
-        decrementStat(Stat.StatType.TOUGHNESS);
+        decrementStat(StatType.TOUGHNESS);
     }
 
     public void increaseMuscles(int increase){
-        increaseStatBy(Stat.StatType.MUSCLES, increase);
+        increaseStatBy(StatType.MUSCLES, increase);
     }
 
     public void increaseBrains(int increase){
-        increaseStatBy(Stat.StatType.BRAINS, increase);
+        increaseStatBy(StatType.BRAINS, increase);
     }
 
     public void increaseSpeed(int increase){
-        increaseStatBy(Stat.StatType.SPEED, increase);
+        increaseStatBy(StatType.SPEED, increase);
     }
 
     public void increaseToughness(int increase){
-        increaseStatBy(Stat.StatType.TOUGHNESS, increase);
+        increaseStatBy(StatType.TOUGHNESS, increase);
     }
 
     public void decreaseMuscles(int decrease){
-        decreaseStatBy(Stat.StatType.MUSCLES, decrease);
+        decreaseStatBy(StatType.MUSCLES, decrease);
     }
 
     public void decreaseBrains(int decrease){
-        decreaseStatBy(Stat.StatType.BRAINS, decrease);
+        decreaseStatBy(StatType.BRAINS, decrease);
     }
 
     public void decreaseSpeed(int decrease){
-        decreaseStatBy(Stat.StatType.SPEED, decrease);
+        decreaseStatBy(StatType.SPEED, decrease);
     }
 
     public void decreaseToughness(int decrease){
-        decreaseStatBy(Stat.StatType.TOUGHNESS, decrease);
+        decreaseStatBy(StatType.TOUGHNESS, decrease);
     }
 
     public void setMuscles(int value){
-        setStatValue(Stat.StatType.MUSCLES, value);
+        setStatValue(StatType.MUSCLES, value);
     }
 
     public void setBrains(int value){
-        setStatValue(Stat.StatType.BRAINS, value);
+        setStatValue(StatType.BRAINS, value);
     }
 
     public void setSpeed(int value){
-        setStatValue(Stat.StatType.SPEED, value);
+        setStatValue(StatType.SPEED, value);
     }
 
     public void setToughness(int value){
-        setStatValue(Stat.StatType.TOUGHNESS, value);
+        setStatValue(StatType.TOUGHNESS, value);
     }
 
     public void setMaxHealth(int maxHealth) {
@@ -275,19 +263,19 @@ public class StatsComponent extends Component {
 
     public int getMusclesModifier() {
 
-        return getStatModifier(Stat.StatType.MUSCLES);
+        return getStatModifier(StatType.MUSCLES);
     }
 
     public int getBrainsModifier() {
-        return getStatModifier(Stat.StatType.BRAINS);
+        return getStatModifier(StatType.BRAINS);
     }
 
     public int getSpeedModifier() {
-        return getStatModifier(Stat.StatType.SPEED);
+        return getStatModifier(StatType.SPEED);
     }
 
     public int getToughnessModifier() {
-        return getStatModifier(Stat.StatType.TOUGHNESS);
+        return getStatModifier(StatType.TOUGHNESS);
     }
 
 
@@ -322,9 +310,6 @@ public class StatsComponent extends Component {
     }
 
 
-    public enum StatTypes{
-       MUSCLES, BRAINS, SPEED, TOUGHNESS
-    }
 
 
     @Override

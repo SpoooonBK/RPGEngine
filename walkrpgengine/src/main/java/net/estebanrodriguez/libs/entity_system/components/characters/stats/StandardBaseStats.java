@@ -1,51 +1,66 @@
-package net.estebanrodriguez.libs.entity_system.components.characters;
+package net.estebanrodriguez.libs.entity_system.components.characters.stats;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by spoooon on 6/14/17.
  */
 
-public class BaseStats {
+public class StandardBaseStats implements BaseStats{
 
-    private Map<Stat.StatType, Stat> mStats = new HashMap<>();
+    private Map<StatType, Stat> mStats = new HashMap<>();
 
-    private BaseStats() {
+    private StandardBaseStats() {
     }
 
     public static Builder getBuilder(){
         return new Builder();
     }
 
-    public Stat getStat(Stat.StatType statType){
-        if(hasStatType(statType)){
+    @Override
+    public Stat get(StatType statType){
+        if(has(statType)){
             return mStats.get(statType);
         }else throw new IllegalArgumentException(statType.toString() + " not found");
     }
+
+    @Override
+    public int size() {
+        return mStats.size();
+    }
+
+    @Override
+    public Set<StatType> getStatTypesSet() {
+        return mStats.keySet();
+    }
+
+    @Override
+    public boolean has(StatType statType) {
+        return mStats.containsKey(statType);
+    }
+
 
     public List<Stat> getStatList(){
         List<Stat> statList = new ArrayList<>(mStats.values());
         return statList;
     }
 
-    private boolean hasStatType(Stat.StatType statType) {
-        return mStats.containsKey(statType);
-    }
 
     public static class Builder{
 
-        private BaseStats instance = new BaseStats();
+        private StandardBaseStats instance = new StandardBaseStats();
 
-        public Builder add(Stat stat){
-                Stat.StatType statType = stat.getStatType();
+        public Builder add(AttributeStat stat){
+                StatType statType = stat.getStatType();
                 instance.mStats.put(statType, stat);
             return this;
         }
 
-        public BaseStats build(){
+        public StandardBaseStats build(){
             if(hasAllStatTypes()){
                 return instance;
             } else {
@@ -55,16 +70,16 @@ public class BaseStats {
         }
 
         private void initializeMissingStatTypes() {
-            for(Stat.StatType statType: Stat.StatType.values()){
+            for(StatType statType: StatType.values()){
                 if(!instance.mStats.containsKey(statType)){
-                    add(new Stat(statType));
+                    add(new AttributeStat(statType));
                 }
             }
         }
 
 
         private boolean hasAllStatTypes(){
-            for(Stat.StatType statType: Stat.StatType.values()){
+            for(StatType statType: StatType.values()){
                 if(!instance.mStats.containsKey(statType)){
                     return false;
                 }

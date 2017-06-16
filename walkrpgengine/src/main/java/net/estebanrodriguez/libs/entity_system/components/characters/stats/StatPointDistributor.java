@@ -1,4 +1,4 @@
-package net.estebanrodriguez.libs.entity_system.components.characters;
+package net.estebanrodriguez.libs.entity_system.components.characters.stats;
 
 import net.estebanrodriguez.libs.utilities.Die;
 import net.estebanrodriguez.libs.utilities.Roll;
@@ -37,9 +37,8 @@ public final class StatPointDistributor {
 
     public void distributeStatPoints(){
         RollTracker rollTracker = rollUntilTotalStatPointsSpent();
-        List<Integer> rolls = rollTracker.getValues();
-        Set<Stat.StatType> statTypes = mStatsComponent.getStatTypes();
-        for(Stat.StatType statType: statTypes){
+        Set<StatType> statTypes = mStatsComponent.getStatTypes();
+        for(StatType statType: statTypes){
             int value = rollTracker.getRollValueById(statType.toString());
             mStatsComponent.setStatValue(statType, value);
         }
@@ -58,8 +57,8 @@ public final class StatPointDistributor {
     private RollTracker rollForEachStatType(){
         RollTracker rollTracker = new RollTracker();
         Die die = buildDie();
-        Set<Stat.StatType> statTypes = mStatsComponent.getStatTypes();
-        for(Stat.StatType statType : statTypes){
+        Set<StatType> statTypes = mStatsComponent.getStatTypes();
+        for(StatType statType : statTypes){
             rollTracker.addRoll(new Roll(statType.toString(), die));
         }
 

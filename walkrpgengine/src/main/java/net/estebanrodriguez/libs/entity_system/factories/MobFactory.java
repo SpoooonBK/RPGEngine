@@ -1,17 +1,8 @@
 package net.estebanrodriguez.libs.entity_system.factories;
 
-import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
-import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
-import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
 import net.estebanrodriguez.libs.utilities.Die;
-import net.estebanrodriguez.libs.utilities.EntityContainer;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by spoooon on 5/31/17.

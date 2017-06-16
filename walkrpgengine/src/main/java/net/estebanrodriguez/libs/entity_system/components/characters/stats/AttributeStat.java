@@ -1,4 +1,6 @@
-package net.estebanrodriguez.libs.entity_system.components.characters;
+package net.estebanrodriguez.libs.entity_system.components.characters.stats;
+
+import net.estebanrodriguez.libs.entity_system.components.characters.OnStatChangeListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -7,18 +9,18 @@ import java.util.List;
  * Created by spoooon on 6/9/17.
  */
 
-public class Stat {
+public class AttributeStat implements Stat {
 
     private final StatType mStatType;
     private final int MINIMUM_VALUE = 1;
     private int mValue;
     private List<OnStatChangeListener> mStatChangeListeners = new ArrayList<>();
 
-    public Stat(StatType statType) {
+    public AttributeStat(StatType statType) {
         mStatType = statType;
     }
 
-    public Stat(StatType statType, int value){
+    public AttributeStat(StatType statType, int value){
         mStatType = statType;
         setValue(value);
     }
@@ -50,12 +52,9 @@ public class Stat {
         notifyListeners();
     }
 
-    public int getModifier() {
-        return (int)((mValue - 5)*.5);
-    }
 
 
-    public void increaseValueby(int increase){
+    public void increaseValueBy(int increase){
         mValue = mValue + increase;
         notifyListeners();
     }
@@ -75,11 +74,4 @@ public class Stat {
 
     }
 
-    /**
-     * Created by spoooon on 6/9/17.
-     */
-
-    public static enum StatType {
-        MUSCLES, BRAINS, SPEED, TOUGHNESS
-    }
 }

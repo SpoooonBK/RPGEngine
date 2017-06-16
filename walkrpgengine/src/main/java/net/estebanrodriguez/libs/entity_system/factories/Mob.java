@@ -2,10 +2,9 @@ package net.estebanrodriguez.libs.entity_system.factories;
 
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
-import net.estebanrodriguez.libs.entity_system.systems.inventory.EquipSystem;
 import net.estebanrodriguez.libs.utilities.EntityContainer;
 
 import java.util.ArrayList;
