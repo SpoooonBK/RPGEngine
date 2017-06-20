@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity {
 
         final GameEntity johnny =GameEntity.getBuilder()
                 .add(new CharacterComponent("Johnny Boo!"))
-                .add(new StatComponent(3))
+                .add(new StatComponent(10000))
                 .add(new CombatComponent())
                 .add(new BodyComponent())
                 .add(new WeaponSlotComponent())

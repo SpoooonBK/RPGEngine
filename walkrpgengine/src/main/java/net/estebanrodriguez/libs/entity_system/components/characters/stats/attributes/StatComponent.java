@@ -19,24 +19,24 @@ public class StatComponent extends Component{
 
     public StatComponent(int level){
         super(COMPONENT_NAME);
-        setStats();
-        setStatValue(StatName.LEVEL, level);
+        setStats(level);
     }
 
     public StatComponent(int level, BaseStats baseStats){
         super(COMPONENT_NAME);
         mBaseStats = baseStats;
-        setStatValue(StatName.LEVEL, level);
+
     }
 
-    private void setStats(){
-        setAttributes();
+    private void setStats(int level){
+        setAttributes(level);
         setHealth();
         setPower();
     }
 
-    private void setAttributes() {
+    private void setAttributes(int level) {
         mBaseStats = new GenericBaseStats();
+        setStatValue(StatName.LEVEL, level);
         StatPointSetter pointSetter = new AttributeStatPointSetter(this);
         pointSetter.setPoints();
     }
