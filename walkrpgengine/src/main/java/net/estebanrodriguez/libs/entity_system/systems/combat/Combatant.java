@@ -2,7 +2,8 @@ package net.estebanrodriguez.libs.entity_system.systems.combat;
 
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.stats.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.attributes.StatComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.enums.StatName;
 import net.estebanrodriguez.libs.entity_system.components.equipment.Equipment;
 import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
@@ -16,9 +17,11 @@ public class Combatant {
     private String mId;
     private String mName;
     private Entity mEntity;
-    private StatsComponent mStatsComponent;
+    private StatComponent mStatComponent;
     private BodyComponent mBodyComponent;
     private Combatant mTarget;
+    private Equipment mWeapons;
+    private Equipment mArmor;
 
 
     public Combatant(Entity entity) {
@@ -27,8 +30,9 @@ public class Combatant {
                 mEntity = entity;
                 mId = entity.getId();
                 mName = ((CharacterComponent) entity.get(CharacterComponent.COMPONENT_NAME)).getName();
-                mStatsComponent = (StatsComponent) entity.get(StatsComponent.COMPONENT_NAME);
+                mStatComponent = (StatComponent) entity.get(StatComponent.COMPONENT_NAME);
                 mBodyComponent = (BodyComponent) entity.get(BodyComponent.COMPONENT_NAME);
+
             } else throw new IllegalArgumentException("Entity cannot fight");
     }
 
@@ -49,8 +53,8 @@ public class Combatant {
         return mEntity;
     }
 
-    public StatsComponent getStatsComponent() {
-        return mStatsComponent;
+    public StatComponent getStatComponent() {
+        return mStatComponent;
     }
 
     public BodyComponent getBodyComponent() {
@@ -70,12 +74,12 @@ public class Combatant {
     public static boolean canFight(Entity entity) {
         return entity.has(CombatComponent.COMPONENT_NAME)
                 && entity.has(BodyComponent.COMPONENT_NAME)
-                && entity.has(StatsComponent.COMPONENT_NAME)
+                && entity.has(StatComponent.COMPONENT_NAME)
                 && entity.has(CharacterComponent.COMPONENT_NAME);
     }
 
     public boolean isAlive(){
-        return (mStatsComponent.getCurrentHealth() > 0);
+        return (mStatComponent.getValue(StatName.HEALTH)> 0);
     }
 
 }

@@ -8,5 +8,5 @@ import net.estebanrodriguez.libs.entity_system.entities.Entity;
 
 public interface OnEquipChangeListener {
 
-    void onEquipChange(Entity character, Entity gear);
+    void onEquipChange(Entity gear);
 }

@@ -2,7 +2,7 @@ package net.estebanrodriguez.libs.entity_system.factories;
 
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.stats.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.attributes.StatComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.utilities.EntityContainer;
@@ -59,7 +59,7 @@ public class Mob implements EntityContainer{
         return (entity.has(CombatComponent.COMPONENT_NAME)
                 && entity.has(CharacterComponent.COMPONENT_NAME)
                 && entity.has(BodyComponent.COMPONENT_NAME)
-                && entity.has(StatsComponent.COMPONENT_NAME)
+                && entity.has(StatComponent.COMPONENT_NAME)
         );
     }
 }

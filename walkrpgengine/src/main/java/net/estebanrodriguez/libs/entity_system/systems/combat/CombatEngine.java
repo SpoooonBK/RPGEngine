@@ -2,7 +2,7 @@ package net.estebanrodriguez.libs.entity_system.systems.combat;
 
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.stats.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.attributes.StatComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.utilities.DiceRoller;
@@ -108,14 +108,14 @@ public class CombatEngine {
 //
 //        StringBuilder stringBuilder = new StringBuilder();
 //        stringBuilder.append("Attacker: " + attacker.getName() +"\n");
-//        stringBuilder.append("Health: " + attacker.getStatsComponent().getCurrentHealth() + "\n");
+//        stringBuilder.append("Health: " + attacker.getStatComponent().getCurrentHealth() + "\n");
 //        stringBuilder.append("Defender: " + defender.getName() +"\n");
-//        stringBuilder.append("Health: " + defender.getStatsComponent().getCurrentHealth() + "\n" );
+//        stringBuilder.append("Health: " + defender.getStatComponent().getCurrentHealth() + "\n" );
 //
 //
 //        if (rollForHit(attacker, defender)) {
 //            int damage = rollForDamage(attacker, defender);
-//            defender.getStatsComponent().decrementHealth(damage);
+//            defender.getStatComponent().decrementHealth(damage);
 //            stringBuilder.append(attacker.getName()
 //                    + " hits " + defender.getName()
 //                    + " for " + damage + " damage!\n");
@@ -162,17 +162,18 @@ public class CombatEngine {
 
     private boolean rollForHit(Combatant attacker, Combatant defender) {
 
-        StatsComponent attackerStats = attacker.getStatsComponent();
-        StatsComponent defenderStats = defender.getStatsComponent();
+        StatComponent attackerStats = attacker.getStatComponent();
+        StatComponent defenderStats = defender.getStatComponent();
 
         Roll attackRoll = new Roll(new Die(Die.StandardDie.D20));
-        attackRoll.addModifier(attackerStats.getMusclesModifier());
-        return (attackRoll.getValue() > defenderStats.getDefense());
+//        attackRoll.addModifier(attackerStats.getMusclesModifier());
+//        return (attackRoll.getValue() > defenderStats.getDefense());
+     return false;
     }
 
 //    private int rollForDamage(Combatant attacker, Combatant defender, GameEntity weapon) {
-//        StatsComponent attackerStats = attacker.getStatsComponent();
-//        StatsComponent defenderStats = defender.getStatsComponent();
+//        StatComponent attackerStats = attacker.getStatComponent();
+//        StatComponent defenderStats = defender.getStatComponent();
 //
 //        BodyComponent attackerBody = attacker.getBodyComponent();
 //        BodyComponent defenderBody = defender.getBodyComponent();
@@ -187,7 +188,7 @@ public class CombatEngine {
 //        Roll roll = new Roll(weaponComponent.getEntityID(), weaponComponent.getDieMultiplier(), weaponComponent.getBaseDie());
 //        roll.addModifier(attackerStats.getMusclesModifier());
 //
-//        int damage = roll.getValue() - defenderStats.getDamageReduction();
+//        int damage = roll.value() - defenderStats.getDamageReduction();
 //
 //        defenderStats.decrementHealth(damage);
 //
@@ -201,7 +202,7 @@ public class CombatEngine {
     public static boolean canFight(Entity gameEntity) {
         return gameEntity.has(CombatComponent.COMPONENT_NAME)
                 && gameEntity.has(BodyComponent.COMPONENT_NAME)
-                && gameEntity.has(StatsComponent.COMPONENT_NAME)
+                && gameEntity.has(StatComponent.COMPONENT_NAME)
                 && gameEntity.has(CharacterComponent.COMPONENT_NAME);
     }
 

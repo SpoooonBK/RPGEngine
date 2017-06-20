@@ -2,7 +2,7 @@ package net.estebanrodriguez.libs.entity_system.factories;
 
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.stats.StatsComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.attributes.StatComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
 import net.estebanrodriguez.libs.entity_system.entities.Entity;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
@@ -27,7 +27,7 @@ public class CharacterFactory implements EntityFactory {
         return GameEntity.getBuilder()
                 .add(new CharacterComponent(name))
                 .add(new CombatComponent())
-                .add(new StatsComponent(level))
+                .add(new StatComponent(level))
                 .add(new BodyComponent())
                 .build();
     }

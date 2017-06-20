@@ -18,7 +18,7 @@ public class DiceRoller {
 
     public static int rollRandomInt(int min, int max){
 
-        return sRandom.nextInt((max - min)) + min;
+        return sRandom.nextInt((max + 1 - min)) + min;
     }
 
 

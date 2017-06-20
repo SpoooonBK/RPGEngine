@@ -8,15 +8,15 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 
-import net.estebanrodriguez.libs.entity_system.components.characters.stats.StandardBaseStats;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.attributes.GenericBaseStats;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyComponent;
 import net.estebanrodriguez.libs.entity_system.components.characters.BodyPart;
 import net.estebanrodriguez.libs.entity_system.components.characters.CharacterComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.stats.AttributeStat;
-import net.estebanrodriguez.libs.entity_system.components.characters.stats.StatType;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.attributes.StatComponent;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.enums.StatName;
+import net.estebanrodriguez.libs.entity_system.components.characters.stats.interfaces.Stat;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponSlotComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.CombatComponent;
-import net.estebanrodriguez.libs.entity_system.components.characters.stats.StatsComponent;
 import net.estebanrodriguez.libs.entity_system.components.equipment.WeaponComponent;
 import net.estebanrodriguez.libs.entity_system.components.skills.AttackSkill;
 import net.estebanrodriguez.libs.entity_system.entities.GameEntity;
@@ -45,15 +45,10 @@ public class MainActivity extends AppCompatActivity {
                 .add(new WeaponComponent("Squiggle Power", BodyPart.Part.TAIL, Die.StandardDie.D2, 2, DamageType.MAGIC ))
                 .build();
 
-        StandardBaseStats standardBaseStats = StandardBaseStats.getBuilder()
-                .add(new AttributeStat(StatType.MUSCLES, -10))
-                .add(new AttributeStat(StatType.BRAINS, 3))
-                .add(new AttributeStat(StatType.TOUGHNESS, 3))
-                .build();
 
         final GameEntity johnny =GameEntity.getBuilder()
                 .add(new CharacterComponent("Johnny Boo!"))
-                .add(new StatsComponent(3, standardBaseStats))
+                .add(new StatComponent(3))
                 .add(new CombatComponent())
                 .add(new BodyComponent())
                 .add(new WeaponSlotComponent())
@@ -64,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
 
         final GameEntity squiggle = GameEntity.getBuilder()
                 .add(new CharacterComponent("Squiggle"))
-                .add(new StatsComponent(3))
+                .add(new StatComponent(3))
                 .add(new CombatComponent())
                 .add(new BodyComponent())
                 .add(new WeaponSlotComponent())
@@ -117,52 +112,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
-//        GameEntity armor1 = GameEntity.getBuilder()
-//                .add(new ArmorComponent("Holey T-shirt", Part.TORSO, 1))
-//                .build();
-//
-//        List<GameEntity> gearList = new ArrayList<>();
-//        gearList.add(weapon1);
-//        gearList.add(weapon2);
-//        gearList.add(armor1);
-//
-//        MobFactory mobFactory = new MobFactory();
-//        Mob mob = mobFactory.createMobWithMaxAmountOfTotalLevels("Strong", 5, 1, MobFactory.LevelPreference.RANDOM_LEVEL);
-//        mob.equipMob(gearList);
-//
-//        Mob mob2 = mobFactory.createMobWithMaxAmountOfTotalLevels("Weak", 3, 1, MobFactory.LevelPreference.RANDOM_LEVEL);
-//        mob2.equipMob(gearList);
-//
-//        Mob mob3 = mobFactory.createMobWithMaxAmountOfTotalLevels("Ultra", 8, 1, MobFactory.LevelPreference.RANDOM_LEVEL);
-//        mob3.equipMob(gearList);
-//
-//        Team ultra = Team.getBuilder()
-//                .add(mob3)
-//                .setName("Ultra")
-//                .build();
-//
-//        Team strong = Team.getBuilder()
-//                .add(mob)
-//                .setName("Strong")
-//                .build();
-//
-//        Team weak = Team.getBuilder()
-//                .add(mob2)
-//                .setName("Weak")
-//                .build();
-//
-//        CombatEngine.getInstance().addTeam(strong);
-//        CombatEngine.getInstance().addTeam(weak);
-//        CombatEngine.getInstance().addTeam(ultra);
-
-
-
-//        Fight fight = CombatEngine.getInstance().executeAutoCombat();
-//        Timber.v(fight.toString());
 
     }
 

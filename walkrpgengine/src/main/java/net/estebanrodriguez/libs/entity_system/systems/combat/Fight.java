@@ -124,7 +124,7 @@ public class Fight {
 
     private Roll rollInitiativeForCombatant(Combatant combatant){
         Roll roll = new Roll(combatant.getId(), new Die(Die.StandardDie.D20));
-        roll.addModifier(combatant.getStatsComponent().getSpeedModifier());
+//        roll.addModifier(combatant.getStatComponent().getSpeedModifier());
         return roll;
     }
 
